@@ -1,0 +1,17 @@
+<div class="auction-card">
+    <div class="image-container">
+      <span class="live-badge">🔥 Live</span>
+      <img [src]="item.image" alt="Auction Item" />
+      <div class="countdown">00 Days 00 Hours 00 Min 00 Sec</div>
+    </div>
+  
+    <h3>{{ item.title }}</h3>
+    <p>Current Bid at: <strong>${{ item.currentBid }}</strong></p>
+    <span class="lot-number">Lot # {{ item.lotNumber }}</span>
+  
+    <div class="bid-info">
+      <img [src]="item.bidderImage" class="bidder-img" />
+      <span>{{ item.bidderName }}</span>
+      <button class="bid-button">Bid Now</button>
+    </div>
+  </div>

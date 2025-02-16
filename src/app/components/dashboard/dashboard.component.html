@@ -1,0 +1,153 @@
+<div class="dashboard">
+    <div class="page-banner">
+        <div class="heading">
+            Profile
+        </div>
+        <div class="sub-head">
+            <div class="left">Home</div>
+            <fa-icon [icon]="faArrow"></fa-icon>
+            <div class="right">Dashboard</div>
+        </div>
+    </div>
+    
+    <div class="dashboard-main">
+        <div class="dashboard-menu">
+            <div class="dashboard-btn" *ngFor="let item of menuItems" (click)="changeTab(item.name)">
+                <fa-icon [icon]="item.icon"></fa-icon> {{item.name}}
+            </div>
+        </div>
+        <div class="dashboard-content" *ngIf="show == 'Dashboard'">
+            <div class="content-header">
+                <div class="profile-img">
+                    <img src="assets/images/profile.jpg" alt="profile">
+                </div>
+                <div class="profile-detail">
+                    <div class="name">
+                        Hi , Rumman
+                    </div>
+                    <div class="desc">
+                        You Have Complete 10 Auction In Last Month. Start Your auction Today.
+                    </div>
+                </div>
+            </div>  
+            <hr>
+            <div class="dashboard-summary-container">
+                <div class="summary-box purple">
+                  <div class="summary-box-content">
+                    <span class="title">Auction Attend</span>
+                    <span class="number">280</span>
+                  </div>
+                  <div class="icon">
+                    <img src="assets/images/money-icon.svg" alt="Money Icon">
+                  </div>
+                </div>
+                <div class="summary-box green">
+                  <div class="summary-box-content">
+                    <span class="title">Auction Win</span>
+                    <span class="number">50</span>
+                  </div>
+                  <div class="icon">
+                    <img src="assets/images/money-icon.svg" alt="Money Icon">
+                  </div>
+                </div>
+                <div class="summary-box red">
+                  <div class="summary-box-content">
+                    <span class="title">Cancel Auction</span>
+                    <span class="number">25</span>
+                  </div>
+                  <div class="icon">
+                    <img src="assets/images/money-icon.svg" alt="Money Icon">
+                  </div>
+                </div>
+            </div>
+            <div class="bidding-summary-container">
+                <h2>Bidding Summary</h2>
+                <table class="bidding-table">
+                  <thead>
+                    <tr>
+                      <th>Auction ID</th>
+                      <th>Product Name</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Auction Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of tableData">
+                      <td>{{ row.auctionId }}</td>
+                      <td>{{ row.productName }}</td>
+                      <td>{{ row.amount }}</td>
+                      <td>
+                        <span [class]="'status ' + row.statusClass">{{ row.status }}</span>
+                      </td>
+                      <td>{{ row.auctionDate }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>              
+        </div>
+        <div class="my-auction" *ngIf="show == 'My Auction'">
+            <h2>My Auction</h2>
+            <hr>
+            <div class="buttons">
+                <button class="button auction" [class.active]="showItems=='Active'" (click)="showItem('Active')"><fa-icon [icon]="faG"></fa-icon> Active Bid</button>
+                <button class="button auction" [class.active]="showItems=='Won'" (click)="showItem('Won')"><fa-icon [icon]="faG"></fa-icon> Won Bid</button>
+                <button class="button auction" [class.active]="showItems=='Closed'" (click)="showItem('Closed')"><fa-icon [icon]="faG"></fa-icon> Closed Bid</button>
+            </div>
+            <hr>
+            <div class="card-grid">
+                <div class="auction-card" *ngFor="let item of items">
+                    <div class="image-container">
+                      <img [src]="item.image" alt="Auction Item">
+                      <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
+                      <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
+                    </div>
+                    <div class="card-content">
+                      <h3>{{ item.title }}</h3>
+                      <div class="bid-section">
+                         <div class="bid-price"> 
+                          <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
+                          <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
+                          <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="settings" *ngIf="show == 'Settings'">
+            <div class="form-container">
+                <div class="form-title">Edit Your Information</div>
+                <hr>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" placeholder="Enter first name">
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" placeholder="Enter last name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Your Address</label>
+                        <input type="text" id="address" placeholder="Enter your address">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" id="phone" placeholder="Enter your phone number">
+                        </div>
+                    </div>
+                    <button class="button primary-green">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

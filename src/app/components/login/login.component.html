@@ -1,0 +1,23 @@
+<div class="container" *ngIf="!loader">
+    <div class="auth-box">
+      <div class="toggle-buttons">
+        <button (click)="isLogin = true" [class.active]="isLogin">Login</button>
+        <button (click)="isLogin = false" [class.active]="!isLogin">Register</button>
+      </div>
+
+      <form *ngIf="isLogin" (ngSubmit)="onLogin()">
+        <input type="email" placeholder="Email address" [(ngModel)]="loginData.email" name="email" required>
+        <input type="password" placeholder="Password" [(ngModel)]="loginData.password" name="password" required>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+
+      <form *ngIf="!isLogin" (ngSubmit)="onRegister()">
+        <input type="text" placeholder="Full name" [(ngModel)]="registerData.name" name="name" required>
+        <input type="email" placeholder="Email address" [(ngModel)]="registerData.email" name="email" required>
+        <input type="password" placeholder="Password" [(ngModel)]="registerData.password" name="password" required>
+        <input type="text" placeholder="Phone no" [(ngModel)]="registerData.phoneNo" name="phoneNo" required>
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+    </div>
+</div>
+<app-loader *ngIf="loader"></app-loader>

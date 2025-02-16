@@ -1,0 +1,169 @@
+@import "helpers/mixins";
+.item-details {
+  .item-info {
+    @include flex-container(start, space-between);
+    padding: 2rem;
+    .left {
+      img {
+        width: 50vw;
+      }
+    }
+    .right {
+      width: 50%;
+      position: relative;
+      @include flex-container(start, start, column);
+      gap: 1.5rem;
+      .live-badge {
+        background: #b90101;
+        padding: 1rem 4rem;
+        border-radius: 1rem;
+        font-weight: bold;
+        @include font(0.8, #fff, DMSansBlack);
+        @include flex-container(center, center);
+        gap: 5px;
+      }
+
+      .title {
+        @include font(3, #000, DMSansBlack);
+        line-height: 3rem;
+      }
+
+      .desc {
+        @include font(1.2, #666, DMSansRegular);
+      }
+
+      .bid-price {
+        @include flex-container(start, start, column);
+        p {
+          @include font(1, #666, DMSansRegular);
+        }
+        strong {
+          @include font(2, #000, DMSansBlack);
+        }
+      }
+
+      .countdown-text {
+        .countdown-container {
+          padding-top: 1rem;
+          text-align: center;
+          font-weight: bold;
+          .countdown-values {
+            @include flex-container(center, center);
+            gap: 18px;
+            .time {
+              @include flex-container(center, center, column);
+              padding: 0.5rem 0.8rem;
+              border: 1px solid #6666662e;
+              border-radius: 10px;
+              .value {
+                @include font(2.8, #000, DMSansBlack);
+                line-height: 3.2rem;
+              }
+            }
+            span {
+              @include font(1, #707070, DMSansLight);
+            }
+          }
+        }
+      }
+
+      .text {
+        @include font(1.2, #000, DMSansMedium);
+        border-bottom: 1px solid #000;
+        line-height: 13px;
+        width: fit-content;
+      }
+      .bid-container{
+        padding-top: 1rem;
+        @include flex-container(center,center);
+        gap: 1rem;
+        fa-icon{
+            @include font(1.5,#000,DMSansBlack);
+            padding: 0.8rem 1rem;
+            background-color: #2222220d;
+        }
+        button{
+            background: #01aa85;
+            color: #fff;
+            &::before {
+                content: "";
+                background-color: #000;
+            }
+        }
+        button:hover{
+            background-color: #000;
+        }
+      }
+
+      .bid-value {
+        padding: 1rem 1.5rem;
+        border: 1px solid #00000029;
+        @include font(1.3, black,DMSansRegular);
+    }
+
+    .support-text{
+        @include flex-container(start,start);
+        padding-top: 2rem;
+        gap: 1rem;
+        fa-icon{
+            padding: 0.2rem 0.4rem;
+            border: 1px solid #000;
+            border-radius: 50%;
+            color: #000;
+        }
+        .support, .wishList{
+            @include font(0.8,#000000de,DMSansRegular)
+        }
+    }
+    }
+  }
+}
+
+@media screen and (max-width: 786px){
+    .item-details{
+        .item-info{
+            flex-direction: column;
+            .left img{
+                width: 100%;
+            }
+            .right{
+                width: 100%;
+                .live-badge{
+                    padding: 0.7rem 1.4rem;
+                }
+                .countdown-text{
+                    .countdown-container{
+                        .countdown-values{
+                            gap: 10px;
+                            .time{
+                                gap: 2px;
+                                padding: 0.7rem;
+                                .value{
+                                    @include font(1.2,#000,DMSansBlack);
+                                    line-height: 10px;
+                                }
+                            }
+                            span{
+                                @include font(0.7,#838383,DMSansBlack);
+                            }
+                        }
+                    }
+                }
+                .bid-container{
+                    input{
+                        width: 10rem;
+                        padding: 0.5rem 0.7rem;
+                    }
+                    fa-icon{
+                        padding: 0.5rem 0.8rem;
+                    }
+                    button{
+                        width: 7rem;
+                    }
+                }
+            }
+        }
+    }
+
+    
+}

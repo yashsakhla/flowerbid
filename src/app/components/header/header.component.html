@@ -1,0 +1,77 @@
+
+<div class="header-container">
+    <!-- Top Section -->
+    <div class="top-section">
+        <div class="contact-info">
+            <span><fa-icon [icon]="faEnvelope"></fa-icon>flowerbid.com</span>
+            <div class="vertical-line"></div>
+            <span><fa-icon [icon]="faHeadset"></fa-icon>Customer Support</span>
+        </div>
+        <div class="button-group">
+            <button class="transparent-button circular">HOW TO BID</button>
+            <button class="transparent-button circular">SELL YOUR ITEM</button>
+        </div>
+    </div>
+    <hr>
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+        <div class="left">
+            <div class="logo"><img src="assets/images/logo-white.svg" alt=""></div>
+        <nav class="nav-links">
+            <div (click)="navigate('/home')">Home</div>
+            <div (click)="navigate('/auction')">Auction</div>
+            <div (click)="navigate('/aboutus')">About Us</div>
+            <div (click)="navigate('/dashboard')">Dashboard</div>
+            <div (click)="navigate('/contact')">Contact</div>
+        </nav>
+        </div>  
+       <div class="right">
+        <div class="search-container">
+            <input type="text" [(ngModel)]="searchValue" placeholder="Search your product..." class="search-box" />
+            <button class="search-button" (click)="redirect('auction',searchValue)"><fa-icon [icon]="faSearch"></fa-icon></button>
+        </div>
+        <div class="money-display" *ngIf="isUserLogeedIn"><h3>₹</h3><span>500</span></div>
+        <div class="money-display" *ngIf="!isUserLogeedIn" (click)="redirect('login')"><h3>Login</h3></div>
+        <div class="money-display" *ngIf="isUserLogeedIn" (click)="redirect('login')"><h3>Logout</h3></div>
+       </div>
+    </div>
+    <hr>
+
+    <div class="side-nav">
+        <div class="left">
+            <div class="logo"><img src="assets/images/logo-white.svg" alt=""></div>
+        </div>
+        <div class="right" (click)="toggleSidebar()">
+            <fa-icon [icon]="faBars"></fa-icon>
+        </div>
+    </div>
+</div>
+
+<div class="side-nav-content" *ngIf="sidebarOpen">
+    <div class="logo-image">
+        <div class="logo"><img src="assets/images/logo.svg" alt=""></div>
+    </div>
+    <div class="middle">
+        <nav class="nav-links">
+            <div (click)="navigate('/home')">Home <fa-icon [icon]="faArrow"></fa-icon></div>
+            <div (click)="navigate('/auction')">Auction <fa-icon [icon]="faArrow"></fa-icon></div>
+            <div (click)="navigate('/aboutus')">About Us <fa-icon [icon]="faArrow"></fa-icon></div>
+            <div (click)="navigate('/dashboard')">Dashboard <fa-icon [icon]="faArrow"></fa-icon></div>
+            <div (click)="navigate('/contact')">Contact <fa-icon [icon]="faArrow"></fa-icon></div>
+        </nav>
+    </div>
+    <div class="bottom">
+        <div class="search-container">
+            <input type="text" [(ngModel)]="searchValue" placeholder="Search your product..." class="search-box" />
+            <button class="search-button" (click)="redirect('auction',searchValue)"><fa-icon [icon]="faSearch"></fa-icon></button>
+        </div>
+        <div class="money-display" *ngIf="isUserLogeedIn"><h3>₹</h3><span>500</span></div>
+        <div class="money-display" *ngIf="!isUserLogeedIn" (click)="redirect('login')"><h3>Login</h3></div>
+        <div class="money-display" *ngIf="isUserLogeedIn" (click)="redirect('login')"><h3>Logout</h3></div>
+
+        <div class="contact-info">
+            <span><fa-icon [icon]="faEnvelope"></fa-icon>flowerbid.com</span>
+            <span><fa-icon [icon]="faHeadset"></fa-icon>Customer Support</span>
+        </div>
+    </div>
+</div>

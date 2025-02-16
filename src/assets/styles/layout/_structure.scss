@@ -1,0 +1,741 @@
+@import "./../helpers/variable";
+@import "./../helpers/mixins";
+@import "./../helpers/animation";
+
+*{
+    box-sizing: border-box;
+    user-select: none;
+    outline: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+html{
+    font-size: $primary-font-size;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    height: 100%;
+}
+
+i{
+    font-size: 2rem;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+body{
+    font-family: $primary-font-family;
+    color: $primary-color;
+    background-color: $background-color1;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+input{
+    user-select: initial;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.head{
+    @include font(3);
+}
+
+.h2{
+    @include font(2);
+}
+
+.h3{
+    @include font(1.5);
+}
+
+.normal-text{
+    @include font(1);
+}
+
+p{
+    @include font(0.9);
+    opacity: 75%;
+}
+
+.disabled{
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.login-input{
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid #7C7C7C;
+    background:none;
+    padding: 0.15rem;
+}
+
+.search-input{
+    width: 100%;
+    border: none;
+    background: #F2F3F2;
+    padding: 10px;
+    border-radius: 11px;
+    padding-left: 40px;
+}
+
+label{
+    @include font(1,#000000);
+    opacity: 90%;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+    @include flex-container(start,start,column);
+    gap: 1rem;
+  }
+  
+  select {
+    appearance: none;
+    /*  safari  */
+    -webkit-appearance: none;
+    /*  other styles for aesthetics */
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.2em 6em 0.5em 0.5em;
+    background-color: transparent;
+    border: none;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+    border-bottom:  1px solid #7C7C7C;
+  }
+  
+  .custom-select::before,
+  .custom-select::after {
+    --size: 0.3rem;
+    content: "";
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
+  }
+  
+  .custom-select::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid black;
+    top: 40%;
+  }
+  
+  .custom-select::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid black;
+    top: 85%;
+  }
+
+.primary-button{
+    width: 70%;
+    background-color: $secondary-color;
+    padding: 1.2rem;
+    color: #fff;
+    border: none;
+    border-radius: 1rem;
+
+    &.light{
+        background: #F2F3F2;
+        font-weight: 600;
+        @include font(1.3, #53B175);
+    }
+}
+
+.disable{
+    opacity: 75%;
+    pointer-events: none;
+}
+
+.products-loader{
+    @include flex-container(center,start,row);
+    gap: 5%;
+    width: 100%;
+    span{
+        width: 35%;
+        height: 7rem;
+        border: 0.5px solid #e7e7e7;
+        border-radius: 10%;
+    }
+}
+
+.search-loader{
+    gap: 10%;
+    padding-top: 1rem;
+    span{
+        width: 45%;
+        height: 12rem;
+    }
+}
+
+
+.button{
+    padding: 1rem 2.5rem;
+    @include font(1.1, #000, DMSansRegular);
+    border: none;
+    font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: color 0.3s ease-in-out;
+  z-index: 1;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: #fff;
+    transition: transform 0.5s ease-in-out;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.transparent-button {
+    background-color: transparent;
+    border: 1px solid rgb(155, 155, 155); /* Optional border */
+    cursor: pointer;
+    color: #fff;
+}
+
+.transparent-button:hover{
+    background-color: $secondary-color;
+    color: #000;
+    border: none;
+    transition: 0.5s ease-in-out;
+    
+}
+
+.card-btn{
+    background-color: #000;
+    @include font(0.9,#fff, DMSansRegular);
+    padding: 0.4rem 1.4rem;
+    border: none;
+    border-radius: 5px;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+    &:hover{
+        background-color: $secondary-color;
+    }
+}
+
+
+.primary-green{
+    background-color: $secondary-color;
+    color: #fff;
+
+    &:hover{
+        color: #000;
+    }
+}
+
+
+.primary-white{
+    background-color: #FFF;
+    &::before{
+        background-color: $secondary-color;
+    }
+}
+
+.primary-white:hover{
+    color: #fff;
+}
+
+.circular {
+    padding: 0.35rem 1.7rem;
+    border-radius: 25px;
+    @include font(0.83,#fff, DMSansBold);
+    &:hover{
+        color: #fff;
+    }
+}
+
+.black{
+    @include font(1,#000, DMSansBold);
+}
+
+.selected{
+    background-color: $secondary-color;
+    color: #fff;
+    border: none;
+}
+
+.shimmerBG {
+    animation-duration: 2.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: #ddd;
+    background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+    background-size: 1200px 100%;
+    border-radius: 10%;
+}
+
+.page-banner{
+    background: url('/assets/images/page-banner.png'),linear-gradient(rgb(215, 201, 254), rgb(215, 201, 254)) no-repeat center center/cover;
+    color: rgb(0, 0, 0);
+    padding: 15rem;
+    text-align: center;
+    .heading{
+        @include font(4,#000,DMSansBlack);
+    }
+    .sub-head{
+        @include flex-container(center,center);
+        @include font(1,rgba(11, 12, 12, 0.5),DMSansRegular);
+        gap: 1rem;
+
+        fa-icon{
+            rotate: 270deg;
+        }
+        .left{
+            color: rgb(1, 170, 133);
+        }
+    }
+}
+
+.auction-card {
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 16px;
+    max-width: 320px;
+    margin: auto;
+    border: 1px solid #0000000a;
+  
+    .image-container {
+      position: relative;
+      img {
+        width: 100%;
+        height: auto;
+      }
+  
+      .live-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: #b90101;
+        padding: 4px 8px;
+        border-radius: 1rem;
+        font-weight: bold;
+        @include font(0.8, #fff, DMSansBlack);
+        @include flex-container(center, center);
+        gap: 5px;
+      }
+  
+      .upcoming {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 4px 8px;
+        border-radius: 1rem;
+        background: #2092e4;
+        @include font(0.8, #fff, DMSansBlack);
+        @include flex-container(center, center);
+        gap: 5px;
+      }
+  
+      .timer {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        @include font(1, #000, DMSansRegular);
+        padding: 0.7rem 2.5rem;
+        border-radius: 3rem;
+        border: 1px solid #bab7b7;
+      }
+    }
+  
+    .countdown-container {
+      text-align: center;
+      font-weight: bold;
+      .countdown-values {
+        @include flex-container(center, center);
+        gap: 10px;
+        .time {
+          @include flex-container(center, center, column);
+          .value {
+            @include font(1.2, #000, DMSansBlack);
+            line-height: 16px;
+          }
+        }
+        span {
+          @include font(0.8, #707070, DMSansLight);
+        }
+      }
+    }
+  
+    .countdown-labels {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 5px;
+    }
+  
+    .card-content {
+      margin-top: 2rem;
+      @include flex-container(start, center, column);
+  
+      h3 {
+        @include font(1.2, #000, DMSansLight);
+        text-align: left;
+      }
+  
+      .bid-price {
+        @include flex-container(start, center, column);
+  
+        p {
+          @include font(0.7, #000, DMSansRegular);
+        }
+  
+        strong {
+          @include font(1.4, #000, DMSansBlack);
+          letter-spacing: 1px;
+        }
+      }
+  
+      .lot-number {
+        background: #e0f5e0;
+        color: #2a7a2a;
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 6px;
+      }
+  
+      .bid-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        width: 100%;
+  
+        .user-img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+  
+        .bid-btn {
+          background: black;
+          color: white;
+          padding: 6px 12px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: 0.3s;
+  
+          &:hover {
+            background: #444;
+          }
+        }
+      }
+    }
+  }
+
+.slider-block {
+    padding: 0 6rem;
+    position: relative;
+    border-radius: 6rem;
+    top: -6rem;
+    background-color: #fff;
+}
+
+.process {
+    padding-bottom: 5rem;
+  .auction-header {
+    @include flex-container(center, center);
+    text-align: center;
+  }
+
+  .process-card {
+    @include flex-container(center, center);
+    .reg,
+    .select,
+    .payment {
+      @include flex-container(start, center, column);
+      gap: 1rem;
+      width: 100%;
+      .card-btn {
+        padding: 0.2rem 2rem;
+        background-color: rgb(36, 83, 212);
+        @include font(1.1, #fff, DMSansRegular);
+      }
+      hr {
+        width: 100%;
+        border: 1.5px solid blue;
+      }
+
+      .card-detail{
+        @include flex-container(start,center,column);
+        gap: 2rem;
+        padding-top: 2rem;
+        .tittle{
+            @include font(2.2,#000,DMSansMedium);
+        }
+        .desc{
+            @include font(1.1,#6e6c6c,DMSansRegular);
+        }
+        .points{
+            padding-left: 3rem;
+            @include font(1.1,#5a5a5a,DMSansMedium);
+           ol{
+            @include flex-container(start,center,column);
+            gap: 0.5rem;
+           }
+        }
+      }
+    }
+  }
+}
+
+.about-us {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 4rem 10rem;
+
+    .left {
+        flex: 1;
+        min-width: 300px;
+        max-width: 50%;
+        .check-list-grid{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 1rem;
+        }
+        .check-list{
+            p{
+                @include font(1.1,#7a7a7a,DMSansRegular);   
+            } 
+            fa-icon{
+                color: #01aa85;
+            }
+
+            .checked{
+                @include flex-container(center,center);
+                gap: 7px;
+            }
+        }
+    }
+    
+    .right {
+        flex: 1;
+        min-width: 300px;
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+
+
+.about-tittle {
+    @include font(3,#000,DMSansBlack);
+}
+
+.about-tittle p {
+    display: inline;
+    font-style: italic;
+    @include font(3,#868686,DMSansBlack);
+}
+
+.about-desc {
+    @include font(1.2,#7a7a7a,DMSansRegular);
+    margin: 15px 0;
+    line-height: 30px;
+}
+
+.about-list {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 3rem 0;
+}
+
+.list-left {
+    width: 60px;
+    height: 60px;
+    background: rgba(36, 83, 212, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    @include font(1.5,#000)
+}
+
+.list-right {
+    flex: 1;
+    @include flex-container(start,center,column);
+    gap: 1rem;
+}
+
+.list-tittle {
+    @include font(1.5,#000,DMSansMedium);
+}
+
+.list-desc {
+    @include font(1.2,#575757,DMSansRegular);
+    line-height: 25px;
+}
+
+.auction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 7rem;
+    padding-bottom: 5rem;
+  
+    .title {
+      h2 {
+        @include font(3, #000, DMSansRegular);
+        em {
+          @include font(3, #808080, DMSansRegular);
+          font-weight: 100;
+          margin-left: 10px;
+          font-style: italic;
+        }
+      }
+      p {
+        @include font(0.9, Blue, DMSansRegular);
+        padding-bottom: 5px;
+      }
+    }
+  
+    .category-list {
+      display: flex;
+      gap: 10px;
+    }
+  
+    .custom-nav {
+      display: flex;
+      gap: 10px;
+  
+      .nav-btn {
+        background: none;
+        border: 1px solid black;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        transition: all 0.3s ease;
+  
+        &:hover {
+          background: black;
+          color: white;
+        }
+      }
+    }
+  }
+
+@media only screen and (min-device-width:320px) and (max-device-width:480px) {
+    
+}
+
+@media only screen and (min-device-width:320px) and (max-device-width:568px) {
+    html{
+        font-size: 12px !important;
+    }
+}
+
+@media only screen and (min-device-width:375px) and (max-device-width:667px) {
+    html{
+        font-size: 14px !important;
+    }
+}
+
+@media only screen and (min-device-width:414px) and (max-device-width:736px) {
+    html{
+        font-size: 15px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .head { @include font(2.5); }
+    .h2 { @include font(1.8); }
+    .h3 { @include font(1.3); }
+    .normal-text, p { @include font(0.9); }
+
+    .button{
+      padding: 0.7rem;
+    }
+    
+    .primary-button {
+        width: 90%;
+        padding: 1rem;
+    }
+    
+    .page-banner {
+        padding: 8rem 2rem;
+    }
+
+    .about-us {
+        flex-direction: column;
+        padding: 2rem;
+    }
+    .about-us .left, .about-us .right {
+        max-width: 100%;
+    }
+
+    .process{
+      .process-card{
+        flex-direction: column;
+        .reg, .select, .payment{
+          padding-bottom: 4rem;
+        }
+      }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    html {
+        font-size: 12px;
+    }
+    
+    .primary-button {
+        width: 100%;
+        padding: 0.8rem;
+    }
+    
+    .page-banner {
+        padding: 6rem 1rem;
+    }
+}
+

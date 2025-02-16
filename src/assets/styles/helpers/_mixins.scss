@@ -1,0 +1,14 @@
+@import "variable";
+
+@mixin flex-container($align:center,$justify: center, $flex-direction: row){
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+    flex-direction: $flex-direction;
+}
+
+@mixin font($size, $color: #000000, $family:DMSansBlack){
+    font-size: calc(#{$size} / #{$primary-font-size-value} * 1rem);
+    color: $color;
+    font-family: $family;
+}
