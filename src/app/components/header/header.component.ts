@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
-    console.log(this.sidebarOpen)
   }
 
   navigate(url:string){
