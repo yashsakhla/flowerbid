@@ -12,7 +12,7 @@ import { NavigationEnd, Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule],
+  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule, CardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -264,6 +264,10 @@ export class HomeComponent {
 
   redirect(path:string){
     this.router.navigate([path]);
+  }
+
+  redirectToCard(item:any){
+    this.router.navigate([`auction-item/${item.id}`]);
   }
   
   

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRight, faGavel, faPlus, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { CountdownModule } from 'ngx-countdown';
@@ -19,6 +20,9 @@ export class CardDetailComponent {
   faPhone = faPhone;
   faHeart = faHeart;
   bidValue:number = 123;
+  constructor(private router:Router){
+
+  }
 
   item:any = {
     image: 'assets/images/product.png',

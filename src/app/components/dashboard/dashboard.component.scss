@@ -280,3 +280,60 @@
 
     }
 }
+
+@media screen and (max-width: 780px){
+    .dashboard{
+        .dashboard-main{
+            padding: 1rem;
+            .dashboard-menu{
+                .dashboard-btn{
+                    justify-content: center;
+                    span{
+                        display: none;
+                    }
+                }
+            }
+            .dashboard-content{
+                padding: 1rem;
+                .content-header{
+                    flex-direction: column;
+                    align-items: start;
+                }
+                .dashboard-summary-container{
+                    flex-direction: column;
+                    .summary-box{
+                        width: 100%;
+                    }
+                }
+                .bidding-summary-container{
+                    overflow: scroll;
+                }
+            }
+            .my-auction{
+                .buttons{
+                    display: grid;
+                    grid-template-columns: repeat(2,1fr);
+                    gap: 5px;
+                    .button{
+                        @include font(0.9,#000,DMSansRegular);
+                        padding: 0.9rem 0.5rem;
+                    }
+                    .active{
+                        color: #fff;
+                    }
+                }
+                .card-grid{
+                    grid-template-columns: repeat(1,1fr);
+                }
+            }
+            .settings{
+                .form-row{
+                    flex-direction: column;
+                    .form-group{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -15,7 +15,7 @@
                 Showing 1-10 of 10
             </div>
             <div class="header-right">
-                <div class="filter">
+                <div class="filter" (click)="filter()">
                     <fa-icon [icon]="faF"></fa-icon>
                     Filters
                 </div>
@@ -34,49 +34,57 @@
         </div>
         <div class="auction-grid">
             <div class="gird">
-                <div class="auction-card" *ngFor="let item of items">
-                    <div class="image-container">
-                      <img [src]="item.image" alt="Auction Item">
-                      <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
-                      <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
-                      <div class="timer">
-                          <div class="countdown-container" *ngIf="item.startDate as startDate">
-                              <div class="countdown-values">
-                                <div class="time">
-                                <span class="value">{{ getCountdownParts(startDate).days }}</span>
-                                <span>Days</span>
-                                </div>
-                                <span>:</span>
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDate).hours }}</span>
-                                  <span>Hour</span>
-                                </div>
-                                <span>:</span>
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDate).minutes }}</span>
-                                  <span>Min</span>
-                                </div>
-                                <span>:</span> 
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDate).seconds }}</span>
-                                  <span>sec</span>
-                                </div>
-                              </div>
-                          </div>
-                            
-                      </div>
-                    </div>
-                    <div class="card-content">
-                      <h3>{{ item.title }}</h3>
-                      <div class="bid-section">
-                         <div class="bid-price"> 
-                          <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
-                          <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
-                          <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
-                      </div>
-                    </div>
-                </div>
+                <app-card *ngFor="let item of items" [item]="item"></app-card>
             </div>
         </div>
     </div>
+    <div class="side-nav-content" *ngIf="showFilter">
+      <fa-icon class="cross" (click)="filter()" [icon]="faCross"></fa-icon>
+      <div class="logo-image">
+          <div class="logo"><img src="assets/images/logo.svg" alt=""></div>
+      </div>
+      <div class="middle">
+        <div class="search-container">
+          <input type="text" placeholder="Search your product..." class="search-box" />
+          <button class="search-button" ><fa-icon [icon]="faSearch"></fa-icon></button>
+      </div>
+      </div>
+      <div class="bottom">
+        <div class="category-row">
+          <div class="category-container">
+            <h3>Category</h3>
+            <div class="checkbox-group">
+              <label *ngFor="let category of categories">
+                <input type="checkbox" name="cat" [(ngModel)]="category.selected" />
+                {{ category.name }}
+              </label>
+            </div>
+          </div>
+          
+        </div>
+        <div class="range-row">
+          <div class="price-range-container">
+            <h3>Price Range</h3>
+            <div class="range-slider">
+              <input
+                type="range"
+                [(ngModel)]="price"
+                (input)="updatePrice($event)"
+                min="0"
+                max="1000"
+                step="10"
+                [style.background]="getSliderBackground()"
+              />
+              <div class="price-label">₹{{ price }}</div>
+            </div>
+          </div>
+          
+          
+        </div>
+        <div class="btn">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+  </div>
 </div>
+

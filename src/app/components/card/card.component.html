@@ -1,17 +1,42 @@
-<div class="auction-card">
-    <div class="image-container">
-      <span class="live-badge">🔥 Live</span>
-      <img [src]="item.image" alt="Auction Item" />
-      <div class="countdown">00 Days 00 Hours 00 Min 00 Sec</div>
-    </div>
-  
-    <h3>{{ item.title }}</h3>
-    <p>Current Bid at: <strong>${{ item.currentBid }}</strong></p>
-    <span class="lot-number">Lot # {{ item.lotNumber }}</span>
-  
-    <div class="bid-info">
-      <img [src]="item.bidderImage" class="bidder-img" />
-      <span>{{ item.bidderName }}</span>
-      <button class="bid-button">Bid Now</button>
+<div class="auction-card" (click)="redirectToCard()">
+  <div class="image-container">
+    <img [src]="item.image" alt="Auction Item">
+    <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
+    <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
+    <div class="timer">
+        <div class="countdown-container" *ngIf="item.startDate as startDate">
+            <div class="countdown-values">
+              <div class="time">
+              <span class="value">{{ getCountdownParts(startDate).days }}</span>
+              <span>Days</span>
+              </div>
+              <span>:</span>
+              <div class="time">
+                <span class="value">{{ getCountdownParts(startDate).hours }}</span>
+                <span>Hour</span>
+              </div>
+              <span>:</span>
+              <div class="time">
+                <span class="value">{{ getCountdownParts(startDate).minutes }}</span>
+                <span>Min</span>
+              </div>
+              <span>:</span> 
+              <div class="time">
+                <span class="value">{{ getCountdownParts(startDate).seconds }}</span>
+                <span>sec</span>
+              </div>
+            </div>
+        </div>
+          
     </div>
   </div>
+  <div class="card-content">
+    <h3>{{ item.title }}</h3>
+    <div class="bid-section">
+       <div class="bid-price"> 
+        <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
+        <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
+        <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
+    </div>
+  </div>
+</div>

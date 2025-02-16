@@ -42,8 +42,13 @@ export class HeaderComponent implements OnInit {
     this.sidebarOpen = false;
   }
 
-  redirect(path:string, searchValue?:string){
+  redirect(path:string){
     this.sidebarOpen = false;
     this.router.navigate([path],{ queryParams: { search: this.searchValue } });
+  }
+  
+  redirectToauction(){
+    this.sidebarOpen = false;
+    this.router.navigate(['auction'],{ queryParams: { search: this.searchValue } });
   }
 }

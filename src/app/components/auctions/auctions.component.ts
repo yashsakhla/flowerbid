@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown,faSliders, faCaretDown, faCaretUp, faGavel, faBusinessTime, faCheckToSlot } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown,faSliders, faCaretDown, faCaretUp, faGavel, faBusinessTime, faCheckToSlot, faSearch, faCross, faCancel, faClose } from '@fortawesome/free-solid-svg-icons';
 import { CountdownModule } from 'ngx-countdown';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-auctions',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule, CountdownModule],
+  imports: [CommonModule,FontAwesomeModule, CountdownModule, FormsModule, CardComponent],
   templateUrl: './auctions.component.html',
   styleUrl: './auctions.component.scss'
 })
@@ -18,10 +20,16 @@ export class AuctionsComponent {
   faD =faCaretDown;
   faU = faCaretUp;
   faG = faGavel;
-    faB = faBusinessTime;
-    faCheck = faCheckToSlot;
+  faB = faBusinessTime;
+  faCheck = faCheckToSlot;
+  faSearch = faSearch;
+  faCross = faClose;
 
   isOpen = false;
+  showFilter:boolean = false;
+  price: number = 500; // Default value
+  minPrice: number = 0;
+  maxPrice: number = 1000;
 
   items = [
     {
@@ -120,12 +128,36 @@ export class AuctionsComponent {
     },
   ];
 
+  categories = [
+    { name: 'Automotive', selected: false },
+    { name: 'Antiques', selected: false },
+    { name: 'Digital Art', selected: false },
+    { name: 'Books & Comic', selected: false },
+    { name: 'Old Coin', selected: false },
+    { name: 'Gadget and Technology', selected: false }
+  ];
+
   constructor(private router:Router){
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0); 
       }
     });
+  }
+
+  updatePrice(event: Event) {
+    this.price = (event.target as HTMLInputElement).valueAsNumber;
+  }
+
+  getSliderBackground(): string {
+    const percentage = ((this.price - this.minPrice) / (this.maxPrice - this.minPrice)) * 100;
+    return `linear-gradient(to right, black ${percentage}%, #ddd ${percentage}%)`;
+  }
+
+
+  filter(){
+    this.showFilter = !this.showFilter;
+    console.log('2')
   }
 
   toggleDropdown() {

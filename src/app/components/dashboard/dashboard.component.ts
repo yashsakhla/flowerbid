@@ -4,11 +4,12 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import { faArrowDown,faGavel, faBusinessTime, faCheckToSlot, faGauge, faCreditCard, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule],
+  imports: [CommonModule,FontAwesomeModule, CardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

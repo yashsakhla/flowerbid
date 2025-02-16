@@ -13,7 +13,7 @@
     <div class="dashboard-main">
         <div class="dashboard-menu">
             <div class="dashboard-btn" *ngFor="let item of menuItems" (click)="changeTab(item.name)">
-                <fa-icon [icon]="item.icon"></fa-icon> {{item.name}}
+                <fa-icon [icon]="item.icon"></fa-icon> <span>{{item.name}}</span>
             </div>
         </div>
         <div class="dashboard-content" *ngIf="show == 'Dashboard'">
@@ -96,22 +96,7 @@
             </div>
             <hr>
             <div class="card-grid">
-                <div class="auction-card" *ngFor="let item of items">
-                    <div class="image-container">
-                      <img [src]="item.image" alt="Auction Item">
-                      <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
-                      <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
-                    </div>
-                    <div class="card-content">
-                      <h3>{{ item.title }}</h3>
-                      <div class="bid-section">
-                         <div class="bid-price"> 
-                          <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
-                          <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
-                          <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
-                      </div>
-                    </div>
-                  </div>
+              <app-card *ngFor="let item of items" [item]="item"></app-card>
             </div>
         </div>
         <div class="settings" *ngIf="show == 'Settings'">

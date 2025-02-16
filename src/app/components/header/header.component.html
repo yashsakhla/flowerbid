@@ -28,7 +28,7 @@
        <div class="right">
         <div class="search-container">
             <input type="text" [(ngModel)]="searchValue" placeholder="Search your product..." class="search-box" />
-            <button class="search-button" (click)="redirect('auction',searchValue)"><fa-icon [icon]="faSearch"></fa-icon></button>
+            <button class="search-button" (click)="redirectToauction()"><fa-icon [icon]="faSearch"></fa-icon></button>
         </div>
         <div class="money-display" *ngIf="isUserLogeedIn"><h3>₹</h3><span>500</span></div>
         <div class="money-display" *ngIf="!isUserLogeedIn" (click)="redirect('login')"><h3>Login</h3></div>
@@ -63,7 +63,7 @@
     <div class="bottom">
         <div class="search-container">
             <input type="text" [(ngModel)]="searchValue" placeholder="Search your product..." class="search-box" />
-            <button class="search-button" (click)="redirect('auction',searchValue)"><fa-icon [icon]="faSearch"></fa-icon></button>
+            <button class="search-button" (click)="redirectToauction()"><fa-icon [icon]="faSearch"></fa-icon></button>
         </div>
         <div class="money-display" *ngIf="isUserLogeedIn"><h3>₹</h3><span>500</span></div>
         <div class="money-display" *ngIf="!isUserLogeedIn" (click)="redirect('login')"><h3>Login</h3></div>
