@@ -150,8 +150,8 @@
     <div class="slider-block process">
         <div class="auction-header">
             <div class="title">
-                <p>BIDDING OUR</p>
-              <h2><strong>Find Your</strong> <em>Favourite</em></h2>
+                <p>Featured Option</p>
+              <h2><strong>Three Steps</strong> <em>Process</em></h2>
             </div>
           </div>
           <div class="process-card">
@@ -221,8 +221,8 @@
     <div class="slider-block upcoming-block">
         <div class="auction-header">
             <div class="title">
-                <p>BIDDING OUR</p>
-              <h2><strong>Auction</strong> <em>Spotlight</em></h2>
+                <p>Chosse your</p>
+              <h2><strong>Upcoming</strong> <em>Auctions</em></h2>
             </div>
           </div>
         <owl-carousel-o [options]="customOptions" #auctionCarousel>
@@ -289,6 +289,177 @@
         <div class="right">
             <img src="assets/images/about-banner.png" alt="product-photo">
         </div>
+    </div>
+
+    <div class="slider-block editors">
+      <div class="auction-header">
+        <div class="title">
+            <p>Featured Option</p>
+          <h2><strong>Editor's Choice</strong> <em>Features</em></h2>
+        </div>
+      </div>
+      <div class="editor-container">
+        <div class="editor-card">
+          <fa-icon [icon]="faHand"></fa-icon>
+          <div class="title">
+            Discover the best deals
+          </div>
+          <div class="desc">
+            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+          </div>
+        </div>
+        <div class="editor-card">
+          <fa-icon [icon]="faHa"></fa-icon>
+          <div class="title">
+            Discover the best deals
+          </div>
+          <div class="desc">
+            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+          </div>
+        </div>
+        <div class="editor-card">
+          <fa-icon [icon]="faS"></fa-icon>
+          <div class="title">
+            Discover the best deals
+          </div>
+          <div class="desc">
+            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+          </div>
+        </div>
+        <div class="editor-card">
+          <fa-icon [icon]="faPh"></fa-icon>
+          <div class="title">
+            Discover the best deals
+          </div>
+          <div class="desc">
+            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-block faq">
+      <div class="auction-header">
+        <div class="title">
+            <p>Support Us</p>
+          <h2><strong>Frequently Asked</strong> <em>Questions</em></h2>
+        </div>
+      </div>
+      <div class="faq-q">
+        <div class="q-box" *ngFor="let item of faq; let i = index">
+          <div class="q">
+            <p>{{item.que}}</p>
+            <fa-icon (click)="showItem(i)" [icon]="item.show ? faMinus : faPlus"></fa-icon>
+          </div>
+          <div class="ans" *ngIf="item.show">
+            {{item.ans}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-block feedback">
+      <div class="auction-header">
+        <div class="title">
+            <p>Our Clients</p>
+          <h2><strong>Feedback From our</strong> <em>Clients</em></h2>
+        </div>
+      </div>
+      <div class="feedback-block">
+        <div class="block">
+          <div class="fb-title">
+            Great Auction Product!
+          </div>
+          <div class="fb-value">
+            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+          </div>
+          <div class="fb-user-row">
+            <div class="left">
+              <div class="user-img">
+                <img src="assets/images/profile.jpg" alt="profile">
+              </div>
+              <div class="user-detail">
+                <div class="name">
+                  jhon Doe
+                </div>
+                <div class="value">
+                  CEO at stemBid
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="date">
+                Feb 18, 2025
+              </div>
+              <div class="time">
+                10:30
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="fb-title">
+            Great Auction Product!
+          </div>
+          <div class="fb-value">
+            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+          </div>
+          <div class="fb-user-row">
+            <div class="left">
+              <div class="user-img">
+                <img src="assets/images/profile.jpg" alt="profile">
+              </div>
+              <div class="user-detail">
+                <div class="name">
+                  jhon Doe
+                </div>
+                <div class="value">
+                  CEO at stemBid
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="date">
+                Feb 18, 2025
+              </div>
+              <div class="time">
+                10:30
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="fb-title">
+            Great Auction Product!
+          </div>
+          <div class="fb-value">
+            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+          </div>
+          <div class="fb-user-row">
+            <div class="left">
+              <div class="user-img">
+                <img src="assets/images/profile.jpg" alt="profile">
+              </div>
+              <div class="user-detail">
+                <div class="name">
+                  jhon Doe
+                </div>
+                <div class="value">
+                  CEO at stemBid
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="date">
+                Feb 18, 2025
+              </div>
+              <div class="time">
+                10:30
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
 
