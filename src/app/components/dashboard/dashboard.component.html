@@ -10,7 +10,7 @@
         </div>
     </div>
     
-    <div class="dashboard-main">
+    <div class="dashboard-main" *ngIf="isUserLoggedIn">
         <div class="dashboard-menu">
             <div class="dashboard-btn" *ngFor="let item of menuItems" (click)="changeTab(item.name)">
                 <fa-icon [icon]="item.icon"></fa-icon> <span>{{item.name}}</span>
@@ -35,7 +35,7 @@
                 <div class="summary-box purple">
                   <div class="summary-box-content">
                     <span class="title">Auction Attend</span>
-                    <span class="number">280</span>
+                    <span class="number">{{userDetails.totalAuction}}</span>
                   </div>
                   <div class="icon">
                     <img src="assets/images/money-icon.svg" alt="Money Icon">
@@ -44,7 +44,7 @@
                 <div class="summary-box green">
                   <div class="summary-box-content">
                     <span class="title">Auction Win</span>
-                    <span class="number">50</span>
+                    <span class="number">{{userDetails.auctionWon}}</span>
                   </div>
                   <div class="icon">
                     <img src="assets/images/money-icon.svg" alt="Money Icon">
@@ -52,8 +52,8 @@
                 </div>
                 <div class="summary-box red">
                   <div class="summary-box-content">
-                    <span class="title">Cancel Auction</span>
-                    <span class="number">25</span>
+                    <span class="title">Lost Auction</span>
+                    <span class="number">{{userDetails.auctionLost}}</span>
                   </div>
                   <div class="icon">
                     <img src="assets/images/money-icon.svg" alt="Money Icon">
@@ -107,32 +107,36 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" placeholder="Enter first name">
+                            <input type="text" id="first-name" placeholder="Enter first name" name="name" [(ngModel)]="userDetails.userName" >
                         </div>
                         <div class="form-group">
-                            <label for="last-name">Last Name</label>
-                            <input type="text" id="last-name" placeholder="Enter last name">
-                        </div>
+                          <label for="email">Email Address</label>
+                          <input type="email" id="email" placeholder="Enter your email" name="email" [(ngModel)]="userDetails.email">
+                      </div>
                     </div>
                     <div class="form-group">
                         <label for="address">Your Address</label>
-                        <input type="text" id="address" placeholder="Enter your address">
+                        <input type="text" id="address" placeholder="Enter your address" name="address" [(ngModel)]="userDetails.address">
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" placeholder="Enter your email">
-                        </div>
-                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
-                            <input type="text" id="phone" placeholder="Enter your phone number">
+                            <input type="text" id="phone" placeholder="Enter your phone number" name="phoneNo" [(ngModel)]="userDetails.phoneNo">
                         </div>
                     </div>
-                    <button class="button primary-green">Save Changes</button>
+                    <button class="button primary-green" (click)="updateInfo()">Save Changes</button>
                 </form>
             </div>
         </div>
+    </div>
+
+    <div class="not-logged-in" *ngIf="!isUserLoggedIn">
+      <h1>
+        Not yet Logged in? log in Now
+      </h1>
+      <button class="button primary-button" (click)="redirect()">
+        Login
+      </button>
     </div>
 </div>

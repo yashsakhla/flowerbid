@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowDown,faSliders, faCaretDown, faCaretUp, faGavel, faBusinessTime, faCheckToSlot, faSearch, faCross, faCancel, faClose } from '@fortawesome/free-solid-svg-icons';
 import { CountdownModule } from 'ngx-countdown';
 import { CardComponent } from '../card/card.component';
+import { RestService } from '../../services/rest/rest.service';
+import { LoaderComponent } from '../loader/loader.component';
+import { ToasterService } from '../../services/toaster/toaster.service';
 
 @Component({
   selector: 'app-auctions',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule, CountdownModule, FormsModule, CardComponent],
+  imports: [CommonModule,FontAwesomeModule, CountdownModule, FormsModule, CardComponent, LoaderComponent],
   templateUrl: './auctions.component.html',
   styleUrl: './auctions.component.scss'
 })
-export class AuctionsComponent {
+export class AuctionsComponent implements OnInit {
   faA = faArrowDown;
   faF = faSliders;
   faD =faCaretDown;
@@ -31,118 +34,56 @@ export class AuctionsComponent {
   minPrice: number = 0;
   maxPrice: number = 1000;
 
-  items = [
-    {
-      image: 'assets/images/product.png',
-      title: 'Zenith auto elevating driving your experience',
-      currentBid: 200,
-      lotNumber: '25896742',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Heritage had curating watch time treasures.',
-      currentBid: 3780,
-      lotNumber: '25896752',
-      bidderName: 'Wyatt Matthew',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-16 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-13 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-13 16:50:00'
-    },
-  ];
+  items:any[]=[];
+  categories:any[] = [];
+  loader!:boolean;
+  failed!: boolean;
+  search!:string;
 
-  categories = [
-    { name: 'Automotive', selected: false },
-    { name: 'Antiques', selected: false },
-    { name: 'Digital Art', selected: false },
-    { name: 'Books & Comic', selected: false },
-    { name: 'Old Coin', selected: false },
-    { name: 'Gadget and Technology', selected: false }
-  ];
-
-  constructor(private router:Router){
+  constructor(private router:Router, private rest:RestService, private toaster:ToasterService, private aRoute:ActivatedRoute){
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0); 
       }
     });
+  }
+
+  ngOnInit(): void {
+    
+    this.aRoute.queryParams.subscribe((res:any)=>{
+      this.search = res.search;
+      if(this.search){
+        this.searchCall();
+      }else{
+        this.getAuctionItem();
+      }
+    })
+  }
+
+  getAuctionItem(){
+    this.loader = true;
+    this.rest.fetchAuction().subscribe(
+      {
+        next:(res:any)=>{
+          this.items = res;
+          res.forEach((ele:any) => {
+            if (!this.categories.some((cat:any) => cat.name === ele.category)) {
+              this.categories.push({name:ele.category,selected:false});
+            }
+          });
+          this.loader = false;
+        },
+        error:(err:Error)=>{
+          this.failed = true;
+          this.loader = false;
+          this.toaster.showError('Error','Error Fetching Auction Itmes');
+        }
+      }
+    )
+  }
+
+  refreshPage(){
+    window.location.reload();
   }
 
   updatePrice(event: Event) {
@@ -182,5 +123,41 @@ export class AuctionsComponent {
       minutes: minutes < 10 ? `0${minutes}` : minutes,
       seconds: seconds < 10 ? `0${seconds}` : seconds,
     };
+  }
+
+  filterCall(){
+    
+  const selectedCategoriesString = this.categories
+  .filter(category => category.selected) // Filter selected categories
+  .map(category => category.name) // Extract names
+  .join(', ');
+  const price = this.price;
+  const param = `category=${selectedCategoriesString}&minPrice=0&maxPrice=${price}`
+    this.rest.fetchFilterDetails(param).subscribe(
+      {
+        next:(res:any)=>{
+          console.log(res);
+          this.items = res;
+        },
+        error:(err:Error)=>{
+
+        }
+      }
+    );
+  }
+
+  searchCall(){
+    const param = `name=${this.search}`
+    this.rest.fetchFilterDetails(param).subscribe(
+      {
+        next:(res:any)=>{
+          console.log(res);
+          this.items = res;
+        },
+        error:(err:Error)=>{
+
+        }
+      }
+    );
   }
 }

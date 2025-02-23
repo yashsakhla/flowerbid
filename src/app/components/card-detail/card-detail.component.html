@@ -10,60 +10,96 @@
         </div>
     </div>
 
-    <div class="item-info">
+    <div class="item-info" *ngIf="isUserLoggedIn">
         <div class="left">
-            <img [src]="item.image" alt="Auction Item">
+            <img src="assets/images/product.png" alt="Auction Item">
         </div>
         <div class="right">
             <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
-            <h3 class="title">{{item.title}}</h3>
-            <p class="desc">{{item.desc}}</p>
+            <span class="upcoming" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>Upcoming</span>
+            <h3 class="title">{{item.name}}</h3>
+            <p class="desc">{{item.name}}</p>
             <div class="bid-price">
                 <p>Current bid at:</p>
-                <strong>${{item.currentBid | number:'1.0-0'}} </strong>
+                <strong>₹{{item.currentBidPrice | number:'1.0-0'}} </strong>
             </div>
             <div class="countdown-text">
                 <div class="text">
-                    Auction will <a *ngIf="item.upcoming">Start</a> <a *ngIf="item.isLive">End</a> in:
+                    Auction will <a *ngIf="item.status === 'upcoming'">Start</a> <a *ngIf="item.status === 'live'">End</a> in:
                 </div>
-                <div class="countdown-container" *ngIf="item.startDate as startDate">
-                    <div class="countdown-values">
-                      <div class="time">
-                      <span class="value">{{ getCountdownParts(startDate).days }}</span>
-                      <span>Days</span>
-                      </div>
-                      <span>:</span>
-                      <div class="time">
-                        <span class="value">{{ getCountdownParts(startDate).hours }}</span>
-                        <span>Hour</span>
-                      </div>
-                      <span>:</span>
-                      <div class="time">
-                        <span class="value">{{ getCountdownParts(startDate).minutes }}</span>
-                        <span>Min</span>
-                      </div>
-                      <span>:</span> 
-                      <div class="time">
-                        <span class="value">{{ getCountdownParts(startDate).seconds }}</span>
-                        <span>sec</span>
-                      </div>
+                <ng-container *ngIf="item.status === 'upcoming'">
+                    <div class="countdown-container" *ngIf="item.startDateTime as startDateTime">
+                        <div class="countdown-values">
+                          <div class="time">
+                          <span class="value">{{ getCountdownParts(startDateTime).days }}</span>
+                          <span>Days</span>
+                          </div>
+                          <span>:</span>
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(startDateTime).hours }}</span>
+                            <span>Hour</span>
+                          </div>
+                          <span>:</span>
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(startDateTime).minutes }}</span>
+                            <span>Min</span>
+                          </div>
+                          <span>:</span> 
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(startDateTime).seconds }}</span>
+                            <span>sec</span>
+                          </div>
+                        </div>
                     </div>
-                </div>
+                </ng-container>
+                <ng-container *ngIf="item.status === 'live'">
+                    <div class="countdown-container" *ngIf="item.endDateTime as endDateTime">
+                        <div class="countdown-values">
+                          <div class="time">
+                          <span class="value">{{ getCountdownParts(endDateTime).days }}</span>
+                          <span>Days</span>
+                          </div>
+                          <span>:</span>
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(endDateTime).hours }}</span>
+                            <span>Hour</span>
+                          </div>
+                          <span>:</span>
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(endDateTime).minutes }}</span>
+                            <span>Min</span>
+                          </div>
+                          <span>:</span> 
+                          <div class="time">
+                            <span class="value">{{ getCountdownParts(endDateTime).seconds }}</span>
+                            <span>sec</span>
+                          </div>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
             <div class="user-bid">
                 <div class="text">
                     your Bid :
                 </div>
-                <div class="bid-container" [class.disabled]="!item.isLive">
+                <div class="bid-container" [class.disabled]="item.status === 'upcoming'">
                     <input type="text" [(ngModel)]="bidValue" class="bid-value" />
                     <fa-icon [icon]="faPlus" (click)="incBid()"></fa-icon>
-                    <button class="button">Place Bid</button>
+                    <button class="button" (click)="placeBid()">Place Bid</button>
                 </div>
                 <div class="support-text">
                     <div class="support"><fa-icon [icon]="faPhone"></fa-icon> Contact Support</div>
-                    <div class="wishList" *ngIf="item.upcoming"><fa-icon [icon]="faHeart"></fa-icon> Add to wishlist</div>
+                    <div class="wishList" *ngIf="item.status==='upcoming'"><fa-icon [icon]="faHeart"></fa-icon> Add to wishlist</div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="not-logged-in" *ngIf="!isUserLoggedIn">
+        <h1>
+          Not yet Logged in? log in Now
+        </h1>
+        <button class="button primary-button" (click)="redirect()">
+          Login
+        </button>
+      </div>
 </div>

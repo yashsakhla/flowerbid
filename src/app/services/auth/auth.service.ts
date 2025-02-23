@@ -8,11 +8,10 @@ export class AuthService {
 
   constructor() { }
 
-  isUserLoggedIn:boolean = false;
+  isUserLoggedIn!:boolean;
 
   setAuth(token:string){
     localStorage.setItem('token',token);
-    this.isUserLoggedIn = token !='' ? true : false;
   }
 
   getAuth(){

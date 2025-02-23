@@ -1,42 +1,60 @@
 <div class="auction-card" (click)="redirectToCard()">
   <div class="image-container">
-    <img [src]="item.image" alt="Auction Item">
-    <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
-    <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
+    <img src="assets/images/product.png" alt="Auction Item" />
+    <span class="live-badge" *ngIf="item.status == 'live'">
+      <fa-icon [icon]="faG"></fa-icon>LIVE</span
+    >
+    <span class="upcoming" *ngIf="item.status == 'upcoming'">
+      <fa-icon [icon]="faB"></fa-icon>UPCOMING</span
+    >
     <div class="timer">
-        <div class="countdown-container" *ngIf="item.startDate as startDate">
-            <div class="countdown-values">
-              <div class="time">
-              <span class="value">{{ getCountdownParts(startDate).days }}</span>
-              <span>Days</span>
-              </div>
-              <span>:</span>
-              <div class="time">
-                <span class="value">{{ getCountdownParts(startDate).hours }}</span>
-                <span>Hour</span>
-              </div>
-              <span>:</span>
-              <div class="time">
-                <span class="value">{{ getCountdownParts(startDate).minutes }}</span>
-                <span>Min</span>
-              </div>
-              <span>:</span> 
-              <div class="time">
-                <span class="value">{{ getCountdownParts(startDate).seconds }}</span>
-                <span>sec</span>
-              </div>
-            </div>
+      <div
+        class="countdown-container"
+        *ngIf="item.startDateTime as startDateTime"
+      >
+        <div class="countdown-values">
+          <div class="time">
+            <span class="value">{{
+              getCountdownParts(startDateTime).days
+            }}</span>
+            <span>Days</span>
+          </div>
+          <span>:</span>
+          <div class="time">
+            <span class="value">{{
+              getCountdownParts(startDateTime).hours
+            }}</span>
+            <span>Hour</span>
+          </div>
+          <span>:</span>
+          <div class="time">
+            <span class="value">{{
+              getCountdownParts(startDateTime).minutes
+            }}</span>
+            <span>Min</span>
+          </div>
+          <span>:</span>
+          <div class="time">
+            <span class="value">{{
+              getCountdownParts(startDateTime).seconds
+            }}</span>
+            <span>sec</span>
+          </div>
         </div>
-          
+      </div>
     </div>
   </div>
   <div class="card-content">
-    <h3>{{ item.title }}</h3>
+    <h3>{{ item.name }}</h3>
     <div class="bid-section">
-       <div class="bid-price"> 
-        <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
-        <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
-        <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
+      <div class="bid-price">
+        <p>Current Bid at:</p>
+        <strong>₹{{ item.currentBidPrice | number : "1.0-0" }}</strong>
+      </div>
+      <button class="card-btn" *ngIf="item.status == 'live'">Bid Now</button>
+      <button class="card-btn" *ngIf="item.status == 'upcoming'">
+        Notify Me
+      </button>
     </div>
   </div>
 </div>

@@ -1,25 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import { faArrowDown,faGavel, faBusinessTime, faCheckToSlot, faGauge, faCreditCard, faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../card/card.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { RestService } from '../../services/rest/rest.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule, CardComponent],
+  imports: [CommonModule,FontAwesomeModule, CardComponent, FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
       faArrow = faArrowDown;
       faG = faGavel;
       faB = faBusinessTime;
       faCheck = faCheckToSlot;
       show='Dashboard';
+      isUserLoggedIn!:boolean;
 
   menuItems = [
     { name: 'Dashboard', icon: faGauge },
@@ -136,12 +140,37 @@ export class DashboardComponent {
   ];
   showItems: string = 'Active';
 
-  constructor(private router:Router){
+  userDetails:any;
+
+  constructor(private router:Router, private auth:AuthService, private rest:RestService){
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.isUserLoggedIn = this.auth.isUserLoggedIn;
+    this.getUser();
+  }
+
+  getUser(){
+    this.rest.fetchUserDetail().subscribe((res:any)=>{
+      this.userDetails = res;
+    })
+  }
+
+  updateInfo(){
+    console.log(this.userDetails)
+    this.rest.updateUserDetails(this.userDetails).subscribe({
+      next:(res:any)=>{
+        console.log(res)
+      },
+      error:(err:Error)=>{
+
+      }
+    })
   }
 
   changeTab(name:string){
@@ -150,5 +179,9 @@ export class DashboardComponent {
 
   showItem(name:string){
     this.showItems = name;
+  }
+
+  redirect(){
+    this.router.navigate(['login'])
   }
 }

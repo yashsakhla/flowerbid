@@ -21,7 +21,23 @@ export class RestService {
     )
   }
 
-  fetchItems(){
+  fetchCategory(){
+    return this.http.get("https://flowerbid.onrender.com/api/flowers/category");
+  }
 
+  fetchAuction(){
+    return this.http.get(`https://flowerbid.onrender.com/api/flowers/available`);
+  }
+
+  fetchFilterDetails(search:string){
+    return this.http.get(`https://flowerbid.onrender.com/api/flowers/available?${search}`);
+  }
+
+  fetchUserDetail(){
+    return this.http.get(`https://flowerbid.onrender.com/api/user/profile`);
+  }
+
+  updateUserDetails(userDetails:any){
+    return this.http.put(`https://flowerbid.onrender.com/api/user/update`,userDetails);
   }
 }

@@ -45,6 +45,6 @@ export class CardComponent {
   }
 
   redirectToCard(){
-    this.router.navigate([`auction-item/${this.item.id}`]);
+    this.router.navigate([`auction-item/${this.item._id}`]);
   }
 }

@@ -9,10 +9,10 @@
             <div class="right">Auction Grid</div>
         </div>
     </div>
-    <div class="auction-main">
+    <div class="auction-main" *ngIf="!loader && items.length > 0">
         <div class="header">
             <div class="header-left">
-                Showing 1-10 of 10
+                Showing 1-{{items.length}} of {{items.length}}
             </div>
             <div class="header-right">
                 <div class="filter" (click)="filter()">
@@ -38,6 +38,25 @@
             </div>
         </div>
     </div>
+    <div class="loader" *ngIf="loader">
+      <app-loader></app-loader>
+    </div>
+    <div class="failed" *ngIf="failed">
+      <div class="error-container">
+        <h1>OOPS!</h1>
+        <p>Error 404 : Failed to load data</p>
+        
+        <button class="button" (click)="refreshPage()">🔄 REFRESH</button>
+      </div>
+    </div>
+    <div class="failed" *ngIf="!(items.length > 0)">
+      <div class="error-container">
+        <h1>No Product Found</h1>
+        <p>Your filtered product is not here yet</p>
+        
+        <button class="button" (click)="getAuctionItem()">🔄 Resume Filter</button>
+      </div>
+    </div>
     <div class="side-nav-content" *ngIf="showFilter">
       <fa-icon class="cross" (click)="filter()" [icon]="faCross"></fa-icon>
       <div class="logo-image">
@@ -45,8 +64,8 @@
       </div>
       <div class="middle">
         <div class="search-container">
-          <input type="text" placeholder="Search your product..." class="search-box" />
-          <button class="search-button" ><fa-icon [icon]="faSearch"></fa-icon></button>
+          <input type="text" placeholder="Search your product..." [(ngModel)]="search" class="search-box" />
+          <button class="search-button" ><fa-icon [icon]="faSearch" (click)="searchCall()"></fa-icon></button>
       </div>
       </div>
       <div class="bottom">
@@ -82,7 +101,7 @@
           
         </div>
         <div class="btn">
-          <button class="button">Submit</button>
+          <button class="button" (click)="filterCall()">Submit</button>
         </div>
       </div>
   </div>

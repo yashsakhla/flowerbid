@@ -1,5 +1,5 @@
 <div class="home">
-    <div class="banner">
+  <div class="banner">
         <div class="overlay"></div>
         <div class="banner-content">
           <p class="trust-label"><fa-icon [icon]="faA"></fa-icon> <span>PROBID YOU CAN TRUST</span></p>
@@ -15,452 +15,468 @@
             <button class="button primary-green" (click)="redirect('auction')">View All Auction</button>
           </div>
         </div>
-    </div>
+  </div>
 
-    <div class="slider-block products">
-        <div class="auction-header">
-            <div class="title">
-                <p>BIDDING OUR</p>
-              <h2><strong>Auction</strong> <em>Spotlight</em></h2>
+  <div *ngIf="!loader && !failed">
+      <div class="slider-block products">
+          <div class="auction-header">
+              <div class="title">
+                  <p>BIDDING OUR</p>
+                <h2><strong>Auction</strong> <em>Spotlight</em></h2>
+              </div>
+              <div class="category-list">
+                  <button class="transparent-button circular black" [class.selected]="product.selected" *ngFor="let product of category" (click)="onCatselect(product.item)">{{product.item}}</button>
+              </div>
+              <div class="custom-nav">
+                <button class="nav-btn left" (click)="prevSlide()">&#9665;</button>
+                <button class="nav-btn right" (click)="nextSlide()">&#9655;</button>
+              </div>
             </div>
-            <div class="category-list">
-                <button class="transparent-button circular black" [class.selected]="product.selected" *ngFor="let product of category" (click)="onCatselect(product.item)">{{product.item}}</button>
-            </div>
-            <div class="custom-nav">
-              <button class="nav-btn left" (click)="prevSlide()">&#9665;</button>
-              <button class="nav-btn right" (click)="nextSlide()">&#9655;</button>
-            </div>
+          <owl-carousel-o [options]="customOptions" #auctionCarousel>
+              <ng-container *ngFor="let item of catItem">
+                <ng-template carouselSlide>
+                  <app-card [item]="item"></app-card>
+                </ng-template>
+              </ng-container>
+          </owl-carousel-o>
+          <div class="view-all">
+              <span>View All Auction</span>
+              <fa-icon [icon]="faArrow"></fa-icon> 
           </div>
-        <owl-carousel-o [options]="customOptions" #auctionCarousel>
-            <ng-container *ngFor="let item of items">
-              <ng-template carouselSlide>
-                <app-card [item]="item"></app-card>
-              </ng-template>
-            </ng-container>
-        </owl-carousel-o>
-        <div class="view-all">
-            <span>View All Auction</span>
-            <fa-icon [icon]="faArrow"></fa-icon> 
-        </div>
-    </div>
+      </div>
 
-    <div class="slider-block category">
-        <div class="auction-header">
-            <div class="title">
-                <p>BIDDING OUR</p>
-              <h2><strong>Auction</strong> <em>Spotlight</em></h2>
+      <div class="slider-block category">
+          <div class="auction-header">
+              <div class="title">
+                  <p>BIDDING OUR</p>
+                <h2><strong>Auction</strong> <em>Spotlight</em></h2>
+              </div>
+              <div class="custom-nav">
+                <button class="nav-btn left" (click)="prevSlide()">&#9665;</button>
+                <button class="nav-btn right" (click)="nextSlide()">&#9655;</button>
+              </div>
             </div>
-            <div class="custom-nav">
-              <button class="nav-btn left" (click)="prevSlide()">&#9665;</button>
-              <button class="nav-btn right" (click)="nextSlide()">&#9655;</button>
-            </div>
-          </div>
-        <owl-carousel-o [options]="categoryOptions" #categoryCarousel>
-            <ng-container *ngFor="let item of flowerCategories">
-              <ng-template carouselSlide>
-                <div class="category-card">
-                  <div class="image-container">
-                    <img [src]="item.image" alt="Auction Item">
-                  </div>
-                  <div class="card-content">
-                    <h3>{{ item.name }}</h3>
-                    <div class="item-count">
-                        {{item.itemCount}} items
+          <owl-carousel-o [options]="categoryOptions" #categoryCarousel>
+              <ng-container *ngFor="let item of flowerCategories">
+                <ng-template carouselSlide>
+                  <div class="category-card">
+                    <div class="image-container">
+                      <img [src]="item.image" alt="Auction Item">
+                    </div>
+                    <div class="card-content">
+                      <h3>{{ item.name }}</h3>
+                      <div class="item-count">
+                          {{item.itemCount}} items
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="arrow-right">
-                    <fa-icon [icon]="faArrow"></fa-icon>
-                  </div>
-              </ng-template>
-            </ng-container>
-        </owl-carousel-o>
-        <div class="view-all">
-            <span>View All Category</span>
-            <fa-icon [icon]="faArrow"></fa-icon> 
-        </div>
-    </div>
-
-    <div class="slider-block fav">
-        <div class="auction-header">
-            <div class="title">
-                <p>BIDDING OUR</p>
-              <h2><strong>Find Your</strong> <em>Favourite</em></h2>
-            </div>
-            <div class="view-all no-pad">
-                <span>View All Category</span>
-                <fa-icon [icon]="faArrow"></fa-icon> 
-            </div>
+                  <div class="arrow-right">
+                      <fa-icon [icon]="faArrow"></fa-icon>
+                    </div>
+                </ng-template>
+              </ng-container>
+          </owl-carousel-o>
+          <div class="view-all">
+              <span>View All Category</span>
+              <fa-icon [icon]="faArrow"></fa-icon> 
           </div>
-          <div class="fancy-layout">
-            <div class="col first">
-              <app-card *ngFor="let item of items | slice:0:2" [item]="item"></app-card>
+      </div>
+
+      <div class="slider-block fav">
+          <div class="auction-header">
+              <div class="title">
+                  <p>BIDDING OUR</p>
+                <h2><strong>Find Your</strong> <em>Favourite</em></h2>
+              </div>
+              <div class="view-all no-pad">
+                  <span>View All Category</span>
+                  <fa-icon [icon]="faArrow"></fa-icon> 
+              </div>
             </div>
-            <div class="col second">
-              <div class="auction-card" (click)="redirectToCard(item)" [class.row]="!isMobileView" *ngFor="let item of items | slice:2:6">
-                  <div class="image-container">
-                    <img [src]="item.image" alt="Auction Item">
-                    <span class="live-badge" *ngIf="item.isLive"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
-                    <span class="upcoming" *ngIf="item.upcoming"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
-                    <div class="timer">
-                        <div class="countdown-container" *ngIf="item.startDate as startDate">
-                            <div class="countdown-values">
-                              <div class="time">
-                              <span class="value">{{ getCountdownParts(startDate).days }}</span>
-                              <span>Days</span>
-                              </div>
-                              <span>:</span>
-                              <div class="time">
-                                <span class="value">{{ getCountdownParts(startDate).hours }}</span>
-                                <span>Hour</span>
-                              </div>
-                              <span>:</span>
-                              <div class="time">
-                                <span class="value">{{ getCountdownParts(startDate).minutes }}</span>
-                                <span>Min</span>
-                              </div>
-                              <span>:</span> 
-                              <div class="time">
-                                <span class="value">{{ getCountdownParts(startDate).seconds }}</span>
-                                <span>sec</span>
+            <div class="fancy-layout">
+              <div class="col first">
+                <app-card *ngFor="let item of items | slice:0:2" [item]="item"></app-card>
+              </div>
+              <div class="col second">
+                <div class="auction-card" (click)="redirectToCard(item)" [class.row]="!isMobileView" *ngFor="let item of items | slice:2:6">
+                    <div class="image-container">
+                      <img [src]="item.image" alt="Auction Item">
+                      <span class="live-badge" *ngIf="item.status == 'live'"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
+                      <span class="upcoming" *ngIf="item.status == 'upcoming'"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
+                      <div class="timer">
+                          <div class="countdown-container" *ngIf="item.startDateTime as startDateTime">
+                              <div class="countdown-values">
+                                <div class="time">
+                                <span class="value">{{ getCountdownParts(startDateTime).days }}</span>
+                                <span>Days</span>
+                                </div>
+                                <span>:</span>
+                                <div class="time">
+                                  <span class="value">{{ getCountdownParts(startDateTime).hours }}</span>
+                                  <span>Hour</span>
+                                </div>
+                                <span>:</span>
+                                <div class="time">
+                                  <span class="value">{{ getCountdownParts(startDateTime).minutes }}</span>
+                                  <span>Min</span>
+                                </div>
+                                <span>:</span> 
+                                <div class="time">
+                                  <span class="value">{{ getCountdownParts(startDateTime).seconds }}</span>
+                                  <span>sec</span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          
+                            
+                      </div>
                     </div>
+                    <div class="card-content">
+                      <h3>{{ item.name }}</h3>
+                      <div class="bid-section">
+                        <div class="bid-price"> 
+                          <p>Current Bid at: </p><strong>₹{{ item.currentBidPrice | number:'1.0-0'  }}</strong></div>
+                          <button class="card-btn" *ngIf="item.status == 'live'">Bid Now</button>
+                          <button class="card-btn" *ngIf="item.status == 'upcoming'">Notify Me</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+              <div class="col third">
+                  <app-card *ngFor="let item of items | slice:6:8" [item]="item"></app-card>
+              </div>
+            </div>
+          
+      </div>
+
+      <div class="slider-block process">
+          <div class="auction-header">
+              <div class="title">
+                  <p>Featured Option</p>
+                <h2><strong>Three Steps</strong> <em>Process</em></h2>
+              </div>
+            </div>
+            <div class="process-card">
+              <div class="reg">
+                  <div class="card-btn">
+                      step-1
                   </div>
-                  <div class="card-content">
-                    <h3>{{ item.title }}</h3>
-                    <div class="bid-section">
-                       <div class="bid-price"> 
-                        <p>Current Bid at: </p><strong>${{ item.currentBid | number:'1.0-0'  }}</strong></div>
-                        <button class="card-btn" *ngIf="item.isLive">Bid Now</button>
-                        <button class="card-btn" *ngIf="item.upcoming">Notify Me</button>
-                    </div>
+                  <hr>
+                  <div class="card-detail">
+                      <div class="tittle">
+                          Registration
+                      </div>
+                      <div class="desc">
+                          Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
+                      </div>
+                      <div class="points">
+                          <ol class="custom-list">
+                              <li> Search Your Auction</li>
+                              <li> Find The Right Product</li>
+                          </ol>
+                      </div>
                   </div>
               </div>
-          </div>
-            <div class="col third">
-                <app-card *ngFor="let item of items | slice:6:8" [item]="item"></app-card>
+              <div class="select">
+                  <div class="card-btn">
+                      step-2
+                  </div>
+                  <hr>
+                  <div class="card-detail">
+                      <div class="tittle">
+                          Select Product
+                      </div>
+                      <div class="desc">
+                          Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
+                      </div>
+                      <div class="points">
+                          <ol class="custom-list">
+                              <li> Search Your Auction</li>
+                              <li> Find The Right Product</li>
+                          </ol>
+                      </div>
+                  </div>
+              </div>
+              <div class="payment">
+                  <div class="card-btn">
+                      step-3
+                  </div>
+                  <hr>
+                  <div class="card-detail">
+                      <div class="tittle">
+                          Go to Biding
+                      </div>
+                      <div class="desc">
+                          Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
+                      </div>
+                      <div class="points">
+                          <ol class="custom-list">
+                              <li> Search Your Auction</li>
+                              <li> Find The Right Product</li>
+                          </ol>
+                      </div>
+                  </div>
+              </div>
             </div>
+      </div>
+
+      <div class="slider-block upcoming-block">
+          <div class="auction-header">
+              <div class="title">
+                  <p>Chosse your</p>
+                <h2><strong>Upcoming</strong> <em>Auctions</em></h2>
+              </div>
+            </div>
+          <owl-carousel-o [options]="customOptions" #auctionCarousel>
+              <ng-container *ngFor="let item of filterItem()">
+                <ng-template carouselSlide>
+                  <app-card [item]="item"></app-card>
+                </ng-template>
+              </ng-container>
+          </owl-carousel-o>
+          <div class="view-all">
+              <span>View All Auction</span>
+              <fa-icon [icon]="faArrow"></fa-icon> 
           </div>
+      </div>
         
-    </div>
+      <div class="about-us">
+          <div class="left">
+              <div class="about-tittle">
+                  Who We <p>Are</p>
+              </div>
+              <div class="about-desc">
+                  Cras cursus faucibus enim id porta. Curabitur et feugiat tortor. Duis ut egestas lib. Aenean id lacin est. Mauris urn purus, docni aliquet id elit id, tempus suscipit dui. Phasellus dictum sem sed ipsum posuer, eget tristique turpis ten. Sed sodales pur ide ex imperdiet of this year we are free offer that your type.
+              </div>
+              <div class="about-list">
+                  <div class="list-left">
+                      <fa-icon [icon]="faCheck"></fa-icon>
+                  </div>
+                  <div class="list-right">
+                      <div class="list-tittle">
+                          Our Expert Solutions
+                      </div>
+                      <div class="list-desc">
+                          Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
+                      </div>
+                  </div>
+              </div>
+              <div class="about-list">
+                  <div class="list-left">
+                      <fa-icon [icon]="faCheck"></fa-icon>
+                  </div>
+                  <div class="list-right">
+                      <div class="list-tittle">
+                          Trusted Performance
+                      </div>
+                      <div class="list-desc">
+                          Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
+                      </div>
+                  </div>
+              </div>
+              <div class="about-list">
+                  <div class="list-left">
+                      <fa-icon [icon]="faCheck"></fa-icon>
+                  </div>
+                  <div class="list-right">
+                      <div class="list-tittle">
+                          Experience the Difference
+                      </div>
+                      <div class="list-desc">
+                          Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="right">
+              <img src="assets/images/about-banner.png" alt="product-photo">
+          </div>
+      </div>
 
-    <div class="slider-block process">
+      <div class="slider-block editors">
         <div class="auction-header">
-            <div class="title">
-                <p>Featured Option</p>
-              <h2><strong>Three Steps</strong> <em>Process</em></h2>
-            </div>
+          <div class="title">
+              <p>Featured Option</p>
+            <h2><strong>Editor's Choice</strong> <em>Features</em></h2>
           </div>
-          <div class="process-card">
-            <div class="reg">
-                <div class="card-btn">
-                    step-1
-                </div>
-                <hr>
-                <div class="card-detail">
-                    <div class="tittle">
-                        Registration
-                    </div>
-                    <div class="desc">
-                        Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
-                    </div>
-                    <div class="points">
-                        <ol class="custom-list">
-                            <li> Search Your Auction</li>
-                            <li> Find The Right Product</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <div class="select">
-                <div class="card-btn">
-                    step-2
-                </div>
-                <hr>
-                <div class="card-detail">
-                    <div class="tittle">
-                        Select Product
-                    </div>
-                    <div class="desc">
-                        Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
-                    </div>
-                    <div class="points">
-                        <ol class="custom-list">
-                            <li> Search Your Auction</li>
-                            <li> Find The Right Product</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            <div class="payment">
-                <div class="card-btn">
-                    step-3
-                </div>
-                <hr>
-                <div class="card-detail">
-                    <div class="tittle">
-                        Go to Biding
-                    </div>
-                    <div class="desc">
-                        Cras cursus faucibus enim id porta. Curab aenean id lacin estearn.
-                    </div>
-                    <div class="points">
-                        <ol class="custom-list">
-                            <li> Search Your Auction</li>
-                            <li> Find The Right Product</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-          </div>
-    </div>
-
-    <div class="slider-block upcoming-block">
-        <div class="auction-header">
-            <div class="title">
-                <p>Chosse your</p>
-              <h2><strong>Upcoming</strong> <em>Auctions</em></h2>
-            </div>
-          </div>
-        <owl-carousel-o [options]="customOptions" #auctionCarousel>
-            <ng-container *ngFor="let item of items">
-              <ng-template carouselSlide>
-                <app-card [item]="item"></app-card>
-              </ng-template>
-            </ng-container>
-        </owl-carousel-o>
-        <div class="view-all">
-            <span>View All Auction</span>
-            <fa-icon [icon]="faArrow"></fa-icon> 
         </div>
-    </div>
+        <div class="editor-container">
+          <div class="editor-card">
+            <fa-icon [icon]="faHand"></fa-icon>
+            <div class="title">
+              Discover the best deals
+            </div>
+            <div class="desc">
+              Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+            </div>
+          </div>
+          <div class="editor-card">
+            <fa-icon [icon]="faHa"></fa-icon>
+            <div class="title">
+              Discover the best deals
+            </div>
+            <div class="desc">
+              Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+            </div>
+          </div>
+          <div class="editor-card">
+            <fa-icon [icon]="faS"></fa-icon>
+            <div class="title">
+              Discover the best deals
+            </div>
+            <div class="desc">
+              Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+            </div>
+          </div>
+          <div class="editor-card">
+            <fa-icon [icon]="faPh"></fa-icon>
+            <div class="title">
+              Discover the best deals
+            </div>
+            <div class="desc">
+              Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-block faq">
+        <div class="auction-header">
+          <div class="title">
+              <p>Support Us</p>
+            <h2><strong>Frequently Asked</strong> <em>Questions</em></h2>
+          </div>
+        </div>
+        <div class="faq-q">
+          <div class="q-box" *ngFor="let item of faq; let i = index">
+            <div class="q">
+              <p>{{item.que}}</p>
+              <fa-icon (click)="showItem(i)" [icon]="item.show ? faMinus : faPlus"></fa-icon>
+            </div>
+            <div class="ans" *ngIf="item.show">
+              {{item.ans}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-block feedback">
+        <div class="auction-header">
+          <div class="title">
+              <p>Our Clients</p>
+            <h2><strong>Feedback From our</strong> <em>Clients</em></h2>
+          </div>
+        </div>
+        <div class="feedback-block">
+          <div class="block">
+            <div class="fb-title">
+              Great Auction Product!
+            </div>
+            <div class="fb-value">
+              “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+            </div>
+            <div class="fb-user-row">
+              <div class="left">
+                <div class="user-img">
+                  <img src="assets/images/profile.jpg" alt="profile">
+                </div>
+                <div class="user-detail">
+                  <div class="name">
+                    jhon Doe
+                  </div>
+                  <div class="value">
+                    CEO at stemBid
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="date">
+                  Feb 18, 2025
+                </div>
+                <div class="time">
+                  10:30
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block">
+            <div class="fb-title">
+              Great Auction Product!
+            </div>
+            <div class="fb-value">
+              “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+            </div>
+            <div class="fb-user-row">
+              <div class="left">
+                <div class="user-img">
+                  <img src="assets/images/profile.jpg" alt="profile">
+                </div>
+                <div class="user-detail">
+                  <div class="name">
+                    jhon Doe
+                  </div>
+                  <div class="value">
+                    CEO at stemBid
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="date">
+                  Feb 18, 2025
+                </div>
+                <div class="time">
+                  10:30
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block">
+            <div class="fb-title">
+              Great Auction Product!
+            </div>
+            <div class="fb-value">
+              “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
+            </div>
+            <div class="fb-user-row">
+              <div class="left">
+                <div class="user-img">
+                  <img src="assets/images/profile.jpg" alt="profile">
+                </div>
+                <div class="user-detail">
+                  <div class="name">
+                    jhon Doe
+                  </div>
+                  <div class="value">
+                    CEO at stemBid
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="date">
+                  Feb 18, 2025
+                </div>
+                <div class="time">
+                  10:30
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="loader" *ngIf="loader">
+    <app-loader></app-loader>
+  </div>
+
+  <div class="failed" *ngIf="failed">
+    <div class="error-container">
+      <h1>OOPS!</h1>
+      <p>Error 404 : Failed to load data</p>
       
-    <div class="about-us">
-        <div class="left">
-            <div class="about-tittle">
-                Who We <p>Are</p>
-            </div>
-            <div class="about-desc">
-                Cras cursus faucibus enim id porta. Curabitur et feugiat tortor. Duis ut egestas lib. Aenean id lacin est. Mauris urn purus, docni aliquet id elit id, tempus suscipit dui. Phasellus dictum sem sed ipsum posuer, eget tristique turpis ten. Sed sodales pur ide ex imperdiet of this year we are free offer that your type.
-            </div>
-            <div class="about-list">
-                <div class="list-left">
-                    <fa-icon [icon]="faCheck"></fa-icon>
-                </div>
-                <div class="list-right">
-                    <div class="list-tittle">
-                        Our Expert Solutions
-                    </div>
-                    <div class="list-desc">
-                        Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
-                    </div>
-                </div>
-            </div>
-            <div class="about-list">
-                <div class="list-left">
-                    <fa-icon [icon]="faCheck"></fa-icon>
-                </div>
-                <div class="list-right">
-                    <div class="list-tittle">
-                        Trusted Performance
-                    </div>
-                    <div class="list-desc">
-                        Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
-                    </div>
-                </div>
-            </div>
-            <div class="about-list">
-                <div class="list-left">
-                    <fa-icon [icon]="faCheck"></fa-icon>
-                </div>
-                <div class="list-right">
-                    <div class="list-tittle">
-                        Experience the Difference
-                    </div>
-                    <div class="list-desc">
-                        Praesent gravida nunc at tortor cursus, molestie dapibus purus posuere. Vestibulum commodo, massa eget rutrum feugiat
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="right">
-            <img src="assets/images/about-banner.png" alt="product-photo">
-        </div>
+      <button class="button" (click)="refreshPage()">🔄 REFRESH</button>
     </div>
-
-    <div class="slider-block editors">
-      <div class="auction-header">
-        <div class="title">
-            <p>Featured Option</p>
-          <h2><strong>Editor's Choice</strong> <em>Features</em></h2>
-        </div>
-      </div>
-      <div class="editor-container">
-        <div class="editor-card">
-          <fa-icon [icon]="faHand"></fa-icon>
-          <div class="title">
-            Discover the best deals
-          </div>
-          <div class="desc">
-            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
-          </div>
-        </div>
-        <div class="editor-card">
-          <fa-icon [icon]="faHa"></fa-icon>
-          <div class="title">
-            Discover the best deals
-          </div>
-          <div class="desc">
-            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
-          </div>
-        </div>
-        <div class="editor-card">
-          <fa-icon [icon]="faS"></fa-icon>
-          <div class="title">
-            Discover the best deals
-          </div>
-          <div class="desc">
-            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
-          </div>
-        </div>
-        <div class="editor-card">
-          <fa-icon [icon]="faPh"></fa-icon>
-          <div class="title">
-            Discover the best deals
-          </div>
-          <div class="desc">
-            Egestas libero. Aenean id lacin est. Mauris urn purus, docni.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="slider-block faq">
-      <div class="auction-header">
-        <div class="title">
-            <p>Support Us</p>
-          <h2><strong>Frequently Asked</strong> <em>Questions</em></h2>
-        </div>
-      </div>
-      <div class="faq-q">
-        <div class="q-box" *ngFor="let item of faq; let i = index">
-          <div class="q">
-            <p>{{item.que}}</p>
-            <fa-icon (click)="showItem(i)" [icon]="item.show ? faMinus : faPlus"></fa-icon>
-          </div>
-          <div class="ans" *ngIf="item.show">
-            {{item.ans}}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="slider-block feedback">
-      <div class="auction-header">
-        <div class="title">
-            <p>Our Clients</p>
-          <h2><strong>Feedback From our</strong> <em>Clients</em></h2>
-        </div>
-      </div>
-      <div class="feedback-block">
-        <div class="block">
-          <div class="fb-title">
-            Great Auction Product!
-          </div>
-          <div class="fb-value">
-            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
-          </div>
-          <div class="fb-user-row">
-            <div class="left">
-              <div class="user-img">
-                <img src="assets/images/profile.jpg" alt="profile">
-              </div>
-              <div class="user-detail">
-                <div class="name">
-                  jhon Doe
-                </div>
-                <div class="value">
-                  CEO at stemBid
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <div class="date">
-                Feb 18, 2025
-              </div>
-              <div class="time">
-                10:30
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="block">
-          <div class="fb-title">
-            Great Auction Product!
-          </div>
-          <div class="fb-value">
-            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
-          </div>
-          <div class="fb-user-row">
-            <div class="left">
-              <div class="user-img">
-                <img src="assets/images/profile.jpg" alt="profile">
-              </div>
-              <div class="user-detail">
-                <div class="name">
-                  jhon Doe
-                </div>
-                <div class="value">
-                  CEO at stemBid
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <div class="date">
-                Feb 18, 2025
-              </div>
-              <div class="time">
-                10:30
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="block">
-          <div class="fb-title">
-            Great Auction Product!
-          </div>
-          <div class="fb-value">
-            “Feel free to customize the key features based on thena helps potential clients understand the specific valueles they'll receive at each pricing tier.”
-          </div>
-          <div class="fb-user-row">
-            <div class="left">
-              <div class="user-img">
-                <img src="assets/images/profile.jpg" alt="profile">
-              </div>
-              <div class="user-detail">
-                <div class="name">
-                  jhon Doe
-                </div>
-                <div class="value">
-                  CEO at stemBid
-                </div>
-              </div>
-            </div>
-            <div class="right">
-              <div class="date">
-                Feb 18, 2025
-              </div>
-              <div class="time">
-                10:30
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
+    
 </div>
 
 

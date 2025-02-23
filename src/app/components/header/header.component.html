@@ -36,21 +36,21 @@
           <fa-icon [icon]="faSearch"></fa-icon>
         </button>
       </div>
-      <div class="money-display" *ngIf="isUserLogeedIn">
+      <div class="money-display" *ngIf="auth.isUserLoggedIn">
         <h3>₹</h3>
         <span>500</span>
       </div>
       <div
         class="money-display"
-        *ngIf="!isUserLogeedIn"
+        *ngIf="!auth.isUserLoggedIn"
         (click)="redirect('login')"
       >
         <h3>Login</h3>
       </div>
       <div
         class="money-display"
-        *ngIf="isUserLogeedIn"
-        (click)="redirect('login')"
+        *ngIf="auth.isUserLoggedIn"
+        (click)="logout()"
       >
         <h3>Logout</h3>
       </div>
@@ -109,14 +109,14 @@
     </div>
     <div
       class="money-display"
-      *ngIf="!isUserLogeedIn"
+      *ngIf="!auth.isUserLoggedIn"
       (click)="redirect('login')"
     >
       <h3>Login</h3>
     </div>
     <div
       class="money-display"
-      *ngIf="isUserLogeedIn"
+      *ngIf="auth.isUserLoggedIn"
       (click)="redirect('login')"
     >
       <h3>Logout</h3>

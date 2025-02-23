@@ -119,6 +119,23 @@
   }
 }
 
+.not-logged-in{
+  @include flex-container(center,center,column);
+  gap: 2rem;
+  padding: 10rem 5rem;
+  h1{
+      @include font(1.2,#000,DMSansRegular);
+  }
+  button{
+      width: 50%;
+      color: #fff;
+      &:hover{
+          color: #000;
+      }
+  }
+
+}
+
 @media screen and (max-width: 786px){
     .item-details{
         .item-info{

@@ -25,12 +25,11 @@ export class HeaderComponent implements OnInit {
   isMobileView!: boolean;
   searchValue:string= '';
 
-  constructor(private router:Router, private auth:AuthService){
+  constructor(private router:Router, public auth:AuthService){
 
   }
 
   ngOnInit(): void {
-    this.isUserLogeedIn = this.auth.isUserLoggedIn;
   }
 
   toggleSidebar() {
@@ -44,7 +43,12 @@ export class HeaderComponent implements OnInit {
 
   redirect(path:string){
     this.sidebarOpen = false;
-    this.router.navigate([path],{ queryParams: { search: this.searchValue } });
+    this.router.navigate([path]);
+  }
+
+  logout(){
+    this.auth.isUserLoggedIn = false;
+    this.router.navigate(['login']);
   }
   
   redirectToauction(){

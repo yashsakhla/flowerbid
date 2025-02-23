@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAsterisk, faCircleCheck, faArrowDown, faGavel, faBusinessTime, faCheckToSlot, faHandshake, faHammer, faPhoneAlt, faStop, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { CardComponent } from '../card/card.component';
@@ -6,17 +6,20 @@ import { CommonModule } from '@angular/common';
 import { CarouselComponent, CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CountdownModule } from 'ngx-countdown';
 import { NavigationEnd, Router } from '@angular/router';
+import { RestService } from '../../services/rest/rest.service';
+import { LoaderComponent } from '../loader/loader.component';
+import { ToasterService } from '../../services/toaster/toaster.service';
 
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule, CardComponent],
+  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule, CardComponent, LoaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   faA = faAsterisk;
   faC = faCircleCheck;
   faArrow = faArrowDown;
@@ -29,106 +32,15 @@ export class HomeComponent {
   faS = faStop;
   faPlus = faPlus;
   faMinus = faMinus;
+  loader!:boolean;
 
   @ViewChild('auctionCarousel', { static: false }) auctionCarousel!: CarouselComponent;
   @ViewChild('categoryCarousel', { static: false }) categoryCarousel!: CarouselComponent;
 
-  items = [
-    {
-      image: 'assets/images/product.png',
-      title: 'Zenith auto elevating driving your experience',
-      currentBid: 200,
-      lotNumber: '25896742',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Heritage had curating watch time treasures.',
-      currentBid: 3780,
-      lotNumber: '25896752',
-      bidderName: 'Wyatt Matthew',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-13 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Nomism on nexus connecting collectors to coins.',
-      currentBid: 5635,
-      lotNumber: '25896652',
-      bidderName: 'Jacob Logan',
-      bidderImage: 'assets/images/product.png',
-      isLive:true,
-      isEnded:false,
-      upcoming:false,
-      startDate:'2025-02-09 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-13 16:50:00'
-    },
-    {
-      image: 'assets/images/product.png',
-      title: 'Canvas code redefining art in the digital realm.',
-      currentBid: 4564,
-      lotNumber: '25896755',
-      bidderName: 'Julian Gabriel',
-      bidderImage: 'assets/images/product.png',
-      isLive:false,
-      isEnded:false,
-      upcoming:true,
-      startDate:'2025-02-13 16:50:00'
-    },
-  ];
+  items:any[] = [];
+  catItem:any = [];
+  allItem:any;
+  failed:boolean = false;
 
   faq = [
     {
@@ -159,7 +71,7 @@ export class HomeComponent {
   ]
   isMobileView!: boolean;
 
-  constructor(private router:Router){
+  constructor(private router:Router, private rest:RestService, private toaster:ToasterService){
     this.isMobileView = window.innerWidth < 1200;
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -168,25 +80,8 @@ export class HomeComponent {
     });
   }
 
-  flowerCategories = [
-    { name: 'Roses', image: 'assets/images/product.png', itemCount: 120 },
-    { name: 'Lilies', image: 'assets/images/product.png', itemCount: 95 },
-    { name: 'Tulips', image: 'assets/images/product.png', itemCount: 150 },
-    { name: 'Orchids', image: 'assets/images/product.png', itemCount: 80 },
-    { name: 'Sunflowers', image: 'assets/images/product.png', itemCount: 60 },
-    { name: 'Daisies', image: 'assets/images/product.png', itemCount: 45 },
-    { name: 'Lotus', image: 'assets/images/product.png', itemCount: 110 },
-    { name: 'Jasmine', image: 'assets/images/product.png', itemCount: 30 }
-  ];
-  
-
-  category = [
-    { item: 'Rose', selected: true },
-    { item: 'Sunflower', selected: false },
-    { item: 'Lilly', selected: false },
-    { item: 'Lotus', selected: false },
-    { item: 'White Rose', selected: false }
-  ];
+  flowerCategories: { name: string; image: string; itemCount: number }[] = [];
+  category: { item: string; selected: boolean }[] = [];
 
   customOptions: OwlOptions = {
     loop: true,
@@ -213,10 +108,64 @@ export class HomeComponent {
   };
 
   isAutoplaying = true;
+  
+  ngOnInit(): void {
+    this.fetchCategory();
+  }
 
   ngAfterViewInit() {
     // Ensure carousel is initialized before modifying autoplay
     setTimeout(() => this.resumeAutoplay(), 500);
+  }
+
+  fetchCategory(){
+    this.loader = true;
+    this.rest.fetchCategory().subscribe(
+    {
+      next:(res:any)=>{
+        this.loader = false;
+        this.allItem = res;
+        this.setItem(res);
+      },
+      error:(err:Error)=>{
+        this.loader = false;
+        this.failed = true;
+        this.toaster.showError("Error","Error fetching data");
+      }
+    });
+  }
+
+  setItem(itemArray:any){
+    for (const [key, value] of Object.entries(itemArray)) {
+      if (Array.isArray(value)) {
+        // Count total flowers in this category
+        const itemCount = value.length;
+
+        // Use the first image as a placeholder (default if none available)
+        const image = 'assets/images/product.png';
+
+        // Add to flowerCategories
+        this.flowerCategories.push({
+          name: key, // Category name
+          image,
+          itemCount
+        });
+
+        // Add unique flower names to items array
+         value.forEach((flower: any) => {
+          if (!this.items.includes(flower.name)) {
+            flower.image = 'assets/images/product.png';
+            this.items.push(flower);
+          }
+        });
+        this.category.push({ item: key, selected: false });
+        this.onCatselect(key);
+      }
+    }
+  }
+
+  filterItem(){
+    return this.items.filter(item => item.status === 'upcoming');
   }
 
   pauseAutoplay() {
@@ -273,6 +222,7 @@ export class HomeComponent {
       ...flower,
       selected: flower.item === item
     }));
+    this.catItem = this.allItem[item];
   }
   
 
@@ -306,6 +256,10 @@ export class HomeComponent {
   
   showItem(i:any){
     this.faq[i].show = !this.faq[i].show;
+  }
+
+  refreshPage(){
+    window.location.reload();
   }
   
 }
