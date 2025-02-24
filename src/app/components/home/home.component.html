@@ -103,29 +103,12 @@
                       <img [src]="item.image" alt="Auction Item">
                       <span class="live-badge" *ngIf="item.status == 'live'"> <fa-icon [icon]="faG"></fa-icon>LIVE</span>
                       <span class="upcoming" *ngIf="item.status == 'upcoming'"> <fa-icon [icon]="faB"></fa-icon>UPCOMING</span>
+                      <span class="closed" *ngIf="item.status == 'closed'"> <fa-icon [icon]="faB"></fa-icon>CLOSED</span>
                       <div class="timer">
                           <div class="countdown-container" *ngIf="item.startDateTime as startDateTime">
-                              <div class="countdown-values">
-                                <div class="time">
-                                <span class="value">{{ getCountdownParts(startDateTime).days }}</span>
-                                <span>Days</span>
-                                </div>
-                                <span>:</span>
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDateTime).hours }}</span>
-                                  <span>Hour</span>
-                                </div>
-                                <span>:</span>
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDateTime).minutes }}</span>
-                                  <span>Min</span>
-                                </div>
-                                <span>:</span> 
-                                <div class="time">
-                                  <span class="value">{{ getCountdownParts(startDateTime).seconds }}</span>
-                                  <span>sec</span>
-                                </div>
-                              </div>
+                            <div class="countdown-container" *ngIf="item.startDateTime as startDateTime">
+                              <app-countdown [endDateTime]="startDateTime"></app-countdown>
+                            </div>
                             </div>
                             
                       </div>

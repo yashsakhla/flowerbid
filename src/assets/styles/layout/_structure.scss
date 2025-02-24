@@ -359,6 +359,18 @@ label{
         @include flex-container(center, center);
         gap: 5px;
       }
+
+      .closed{
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 4px 8px;
+        border-radius: 1rem;
+        background: #ff2147;
+        @include font(0.8, #fff, DMSansBlack);
+        @include flex-container(center, center);
+        gap: 5px;
+      }
   
       .timer {
         position: absolute;
@@ -376,19 +388,19 @@ label{
     .countdown-container {
       text-align: center;
       font-weight: bold;
-      .countdown-values {
-        @include flex-container(center, center);
-        gap: 10px;
-        .time {
-          @include flex-container(center, center, column);
-          .value {
-            @include font(1.2, #000, DMSansBlack);
-            line-height: 16px;
-          }
+    }
+    .countdown-values {
+      @include flex-container(center, center);
+      gap: 10px;
+      .time {
+        @include flex-container(center, center, column);
+        .value {
+          @include font(1.2, #000, DMSansBlack);
+          line-height: 16px;
         }
-        span {
-          @include font(0.8, #707070, DMSansLight);
-        }
+      }
+      span {
+        @include font(0.8, #707070, DMSansLight);
       }
     }
   

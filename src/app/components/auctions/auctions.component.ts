@@ -105,26 +105,6 @@ export class AuctionsComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  getCountdownParts(startDate: string) {
-    const now = new Date(); // Current time
-    const targetDate = new Date(startDate.replace(/-/g, '/')); // Parse startDate
-  
-    const diff = targetDate.getTime() - now.getTime(); // Difference in milliseconds
-    const leftTime = diff > 0 ? Math.floor(diff / 1000) : 0; // Convert to seconds
-  
-    const days = Math.floor(leftTime / 86400);
-    const hours = Math.floor((leftTime % 86400) / 3600);
-    const minutes = Math.floor((leftTime % 3600) / 60);
-    const seconds = leftTime % 60;
-  
-    return {
-      days: days < 10 ? `0${days}` : days,
-      hours: hours < 10 ? `0${hours}` : hours,
-      minutes: minutes < 10 ? `0${minutes}` : minutes,
-      seconds: seconds < 10 ? `0${seconds}` : seconds,
-    };
-  }
-
   filterCall(){
     
   const selectedCategoriesString = this.categories

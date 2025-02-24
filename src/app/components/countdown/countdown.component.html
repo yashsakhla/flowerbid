@@ -1,0 +1,22 @@
+<div [class]="detail ? 'countdown-detail-values': 'countdown-values'">
+    <div class="time">
+      <span class="value">{{ countdown.days }}</span>
+      <span>Days</span>
+    </div>
+    <span>:</span>
+    <div class="time">
+      <span class="value">{{ countdown.hours }}</span>
+      <span>Hour</span>
+    </div>
+    <span>:</span>
+    <div class="time">
+      <span class="value">{{ countdown.minutes }}</span>
+      <span>Min</span>
+    </div>
+    <span>:</span>
+    <div class="time">
+      <span class="value">{{ countdown.seconds }}</span>
+      <span>Sec</span>
+    </div>
+  </div>
+  

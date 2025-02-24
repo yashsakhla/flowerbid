@@ -9,13 +9,14 @@ import { NavigationEnd, Router } from '@angular/router';
 import { RestService } from '../../services/rest/rest.service';
 import { LoaderComponent } from '../loader/loader.component';
 import { ToasterService } from '../../services/toaster/toaster.service';
+import { CountdownComponent } from '../countdown/countdown.component';
 
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule, CardComponent, LoaderComponent],
+  imports: [FontAwesomeModule, CardComponent, CommonModule, CarouselModule, CountdownModule, CardComponent, LoaderComponent, CountdownComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

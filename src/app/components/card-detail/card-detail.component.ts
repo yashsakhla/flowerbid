@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -8,11 +8,14 @@ import { CountdownModule } from 'ngx-countdown';
 import { SocketService } from '../../services/socket/socket.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
+import { catchError, combineLatest, filter, Observable, of, startWith, Subscription } from 'rxjs';
+import { LoaderComponent } from '../loader/loader.component';
+import { CountdownComponent } from '../countdown/countdown.component';
 
 @Component({
   selector: 'app-card-detail',
   standalone: true,
-  imports: [CommonModule,FontAwesomeModule, CountdownModule, FormsModule],
+  imports: [CommonModule,FontAwesomeModule, CountdownModule, FormsModule, LoaderComponent, CountdownComponent],
   templateUrl: './card-detail.component.html',
   styleUrl: './card-detail.component.scss'
 })
@@ -22,51 +25,47 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   faPlus=faPlus;
   faPhone = faPhone;
   faHeart = faHeart;
-  bidValue!:number;
-  flowerId!:any;
+  bidValue$!:Observable<any>;
+  flowerId:any;
   isUserLoggedIn:any;
-  item:any = {
-    image: 'assets/images/product.png',
-    title: 'Zenith auto elevating driving your experience',
-    desc:'Zenith auto elevating driving your experience. Zenith auto elevating driving your experience',
-    currentBid: 200,
-    lotNumber: '25896742',
-    isLive:true,
-    isEnded:false,
-    upcoming:false,
-    startDate:'2025-02-09 16:50:00'
-  }
+  item$!:Observable<any>;
+  item: any;
+  bidValue: any;
+  loader!:boolean;
+  private subscription: Subscription = new Subscription();
 
-  constructor(private router:ActivatedRoute, private route:Router, private socket:SocketService, private auth:AuthService, private toaster:ToasterService){
+  constructor(private router:ActivatedRoute, private route:Router, private socket:SocketService, private auth:AuthService, private toaster:ToasterService, private cdRef:ChangeDetectorRef){
 
   }
 
   ngOnInit(): void {
+    this.loader = true;
     this.isUserLoggedIn = this.auth.isUserLoggedIn;
      this.flowerId = this.router.snapshot.paramMap.get('id')!;
      if (this.flowerId && this.isUserLoggedIn) {
-      // Get auction details for this flower
-      this.startAuction();
-      this.socket.getAuctionDetails(this.flowerId).subscribe(data => {
-        this.item = data;
-        this.bidValue = data.currentBidPrice;
-      });
+      this.bidingSocket();
+     }
 
-      // Listen for auction start for this flower
-      this.socket.onAuctionStart(this.flowerId).subscribe(data => {
-        this.item = data;
-        this.bidValue = data.currentBidPrice;
-        this.toaster.showInfo("Bid Has Started","place your Bid")
-      });
-
-      // Listen for bid updates for this flower
-      this.socket.onBidUpdate(this.flowerId).subscribe(data => {
-        this.item = data;
-        this.bidValue = data.currentBidPrice;
-        this.toaster.showSuccess("Bid has been Placed","Bid Updated");
-      });
-    }
   }
+
+  bidingSocket(){
+     // Get auction details for this flower
+     this.socket.connectSocket()
+     this.startAuction();
+     this.socket.getAuctionDetails(this.flowerId);
+     this.socket.onAuctionStart(this.flowerId);
+     this.socket.onBidUpdate(this.flowerId);
+     this.subscription.add(
+      this.socket.item$.subscribe(data => {
+        this.item = data;
+        this.bidValue = this.item.currentBidPrice;
+        if(this.item !== null){
+          this.loader = false;
+        }
+      })
+    );
+  }
+  
 
   startAuction() {
     this.socket.startAuction(this.flowerId);
@@ -76,30 +75,13 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   placeBid() {
     if (this.bidValue > this.item.currentBidPrice) {
       this.socket.placeBid(this.flowerId, this.bidValue);
+      console.log(`Bid placed: ₹${this.bidValue}`);
     } else {
-      alert("Your bid must be higher than the current price!");
+      this.toaster.showError("Bid must be higher than current price.","Increase your Bid Amount");
+      console.log('Bid must be higher than current price.');
     }
   }
-
-  getCountdownParts(startDate: string) {
-    const now = new Date(); // Current time
-    const targetDate = new Date(startDate.replace(/-/g, '/')); // Parse startDate
   
-    const diff = targetDate.getTime() - now.getTime(); // Difference in milliseconds
-    const leftTime = diff > 0 ? Math.floor(diff / 1000) : 0; // Convert to seconds
-  
-    const days = Math.floor(leftTime / 86400);
-    const hours = Math.floor((leftTime % 86400) / 3600);
-    const minutes = Math.floor((leftTime % 3600) / 60);
-    const seconds = leftTime % 60;
-  
-    return {
-      days: days < 10 ? `0${days}` : days,
-      hours: hours < 10 ? `0${hours}` : hours,
-      minutes: minutes < 10 ? `0${minutes}` : minutes,
-      seconds: seconds < 10 ? `0${seconds}` : seconds,
-    };
-  }
 
   incBid(){
     this.bidValue += 5;
@@ -111,5 +93,9 @@ export class CardDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.socket.disconnectSocket();
+  }
+
+  refresh(){
+
   }
 }

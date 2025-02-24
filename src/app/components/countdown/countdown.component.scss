@@ -1,0 +1,34 @@
+@import "helpers/mixins";
+
+.countdown-values {
+    @include flex-container(center, center);
+    gap: 10px;
+    .time {
+      @include flex-container(center, center, column);
+      .value {
+        @include font(1.2, #000, DMSansBlack);
+        line-height: 16px;
+      }
+    }
+    span {
+      @include font(0.8, #707070, DMSansLight);
+    }
+  }
+
+  .countdown-detail-values {
+    @include flex-container(center, center);
+    gap: 18px;
+    .time {
+      @include flex-container(center, center, column);
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #6666662e;
+      border-radius: 10px;
+      .value {
+        @include font(2.8, #000, DMSansBlack);
+        line-height: 3.2rem;
+      }
+    }
+    span {
+      @include font(1, #707070, DMSansLight);
+    }
+  }
