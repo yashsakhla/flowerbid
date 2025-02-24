@@ -89,8 +89,9 @@ export class SocketService {
   // Listen for Bid Updates
   onBidUpdate(flowerId: string) {
     try {
-      this.socket.off(`bidUpdated`); // ✅ Remove previous listeners 
-      this.socket.once(`bidUpdated`, (data) => { // ✅ Fires only once
+      this.socket.off(`bidUpdated`); // ✅ Remove previous listeners before adding a new one 
+  
+      this.socket.on(`bidUpdated`, (data) => { // ✅ Listens for updates continuously
         if (!data) throw new Error("No bid update received");
   
         this.toster.showSuccess("Bid updated", "Bid has been placed");
@@ -98,7 +99,8 @@ export class SocketService {
         this.bidValueSubject.next(data.currentBidPrice);
       });
   
-      this.socket.once('bidError', (error) => { // ✅ Handle errors only once
+      this.socket.off('bidError'); // ✅ Ensure no duplicate error listeners
+      this.socket.on('bidError', (error) => { // ✅ Handle errors properly
         console.error("Socket error in onBidUpdate:", error);
         this.toster.showError("An error occurred while receiving bid updates", "Socket Error");
       });
@@ -108,6 +110,7 @@ export class SocketService {
       this.toster.showError("Failed to receive bid updates", "Error");
     }
   }
+  
   
   
   // ✅ Function to Reset Component Variables When Socket Breaks
